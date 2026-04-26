@@ -118,3 +118,65 @@ Notes:
 - Level 5 solves modulo-7 constraints over mutable rewrite rules.
 - Level 6 solves mutable tree-translation constraints.
 - Like LS20, this is source-assisted and not yet a black-box ARC-AGI-3 agent.
+
+## WA30
+
+Command:
+
+```bash
+python v18_wa30_object_solver.py --target-level 3
+```
+
+Environment:
+
+```text
+game: wa30
+environment id: wa30-ee6fef47
+available levels: 9
+requested target: 3
+effective target: 3
+```
+
+Final scorecard:
+
+```text
+score: 13.333333333333334
+levels_completed: 3 / 9
+completed: false
+state: NOT_FINISHED
+total_actions: 163
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 26 | 71 | 100.0 |
+| 2 | 61 | 119 | 100.0 |
+| 3 | 76 | 183 | 100.0 |
+| 4 | 0 | 98 | 0.0 |
+| 5 | 0 | 368 | 0.0 |
+| 6 | 0 | 68 | 0.0 |
+| 7 | 0 | 79 | 0.0 |
+| 8 | 0 | 442 | 0.0 |
+| 9 | 0 | 415 | 0.0 |
+
+Generated player plans:
+
+```text
+L1: UUGUULGLULGURRRRDGRRUGDLLG
+L2: DDDDDDDDRRRRRRRGLLLLLLULGUUURRRRRRRRGLLLLLLLLLDDG
+L3: UUUURGRRRGLLLLLLURGRRRRRRGDDDDDDLLLLLDRGRRRRRG
+```
+
+Notes:
+
+- Level 1 is solved by an exact source-assisted grab/drag planner over player,
+  boxes, facing, and held-object state.
+- Level 2 is solved by a player/helper cooperative plan: the player clears two
+  far boxes while the helper solves the nearest boxes.
+- Level 3 is solved by a hazard-column handoff: the player moves left-side
+  boxes to the `x=32` barrier, and the helper carries them to the target zone.
+- Level 4 is not solved yet; idle-helper rollout stalls after one outer box,
+  so the next step is a multi-helper interior-ring planner.
