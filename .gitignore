@@ -1,0 +1,70 @@
+# Local/editor state
+.claude/
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# ARC runtime cache and generated game files.
+# The public repo intentionally does not vendor ARC Prize environment source.
+environment_files/
+recordings/
+
+# Generated diagnostics and rollout artifacts
+*_output/
+rollout_dump/
+*.png
+*.npy
+*.pkl
+*.log
+log.txt
+frame_log.txt
+frame_diff_log.txt
+v*_log.txt
+
+# Scratch files accidentally created during probing
+1.0
+4.0
+4]
+REPEAT_THRESHOLD
+
+# Legacy probes and exploratory scripts kept locally but excluded from the
+# clean public release.
+action_profile.py
+algebra_state_atlas.py
+analyze_*.py
+debug_agent.py
+diag_actions.py
+diag_l3.py
+diag_l5_state.py
+diag_level2*.py
+exotic_e2e_*.py
+exotic_probe_test.py
+exotic_viz/
+experiment_*.py
+frame_*.py
+goal_seek_agent*.py
+hybrid_solve_l2.py
+inspect_*.py
+investigate_*.py
+l2_transformation_summary.json
+manual_*.py
+math_*.py
+play.py
+plus_*.py
+repeat_track.py
+rollout_frame_dumper.py
+run_sm_*.py
+save_frame.py
+stress_test.py
+test_*.py
+tracker.py
+v11_*.py
+v12_*.py
+v13*.py
+v13*.json
+v14*.py
+v16_object_pathfinder_output.py
+viz_*.py
+world_map_analysis.md
