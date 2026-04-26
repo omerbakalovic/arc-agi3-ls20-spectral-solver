@@ -2,6 +2,8 @@
 
 Date: 2026-04-26
 
+## LS20
+
 Command:
 
 ```bash
@@ -58,3 +60,61 @@ Notes:
 - This demonstrates a working solver for a public environment, not a
   competition-ready black-box generalist.
 
+## TR87
+
+Command:
+
+```bash
+python v17_tr87_symbolic_solver.py --target-level 6
+```
+
+Environment:
+
+```text
+game: tr87
+environment id: tr87-cd924810
+available levels: 6
+requested target: 6
+effective target: 6
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 6 / 6
+completed: true
+state: WIN
+total_actions: 118
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 14 | 54 | 100.0 |
+| 2 | 25 | 58 | 100.0 |
+| 3 | 21 | 40 | 100.0 |
+| 4 | 21 | 45 | 100.0 |
+| 5 | 14 | 71 | 100.0 |
+| 6 | 23 | 146 | 100.0 |
+
+Generated plans:
+
+```text
+L1: DDRDDRUUURDRDD
+L2: DDDRDDRUUURUURUUURUUURDDD
+L3: DRDDRDDDRDDRUUURDDRDD
+L4: UUURUUURUUURRDDRUUURD
+L5: RDRURURDRUURRD
+L6: UULUUURRURDRURRDDRUURRD
+```
+
+Notes:
+
+- TR87 is a symbolic transduction puzzle rather than a spatial maze.
+- Levels 1-4 solve target rows under fixed rewrite rules.
+- Level 5 solves modulo-7 constraints over mutable rewrite rules.
+- Level 6 solves mutable tree-translation constraints.
+- Like LS20, this is source-assisted and not yet a black-box ARC-AGI-3 agent.

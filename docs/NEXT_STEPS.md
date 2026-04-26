@@ -6,6 +6,7 @@ Current limitation:
 
 ```text
 v15_level3_signal_planner.py reads environment_files/ls20/9607627b/ls20.py
+v17_tr87_symbolic_solver.py reads live TR87 symbolic state from the source-backed runtime
 ```
 
 Goal:
@@ -27,17 +28,20 @@ Goal:
 Wrap the planner as an ARC-AGI-3 agent class compatible with the public agents
 repo interface.
 
-## 3. Test Beyond LS20
+## 3. Test Beyond LS20/TR87
 
 Minimum next games:
 
-- `vc33`
 - `ft09`
+- `g50t`
+- `wa30`
+- `vc33` once click control is supported
 
 This will tell us which parts are truly general:
 
 - grid/floor perception
 - object-effect inference
+- symbolic transduction inference
 - multi-step planning
 - goal acquisition
 - memory across attempts
@@ -51,4 +55,3 @@ The promising parts worth preserving:
 - frame-delta event classification
 - staged planning over typed operators
 - persistent danger/progress memory
-
