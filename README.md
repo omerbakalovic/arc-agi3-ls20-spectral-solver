@@ -89,13 +89,26 @@ level_actions: [17, 31, 64, 31, 50, 49, 67]
 level_baseline_actions: [78, 175, 179, 230, 96, 54, 67]
 ```
 
+On the public `re86` environment version `8af5384d`, the RE86 shape/color
+signal runner also solves all available levels:
+
+```text
+environment: re86-8af5384d
+score: 100.0
+levels_completed: 8 / 8
+state: WIN
+total_actions: 507
+level_actions: [20, 36, 47, 42, 63, 46, 98, 155]
+level_baseline_actions: [26, 42, 86, 108, 189, 139, 424, 241]
+```
+
 The latest local reproduction summary is documented in
 [`docs/RESULTS.md`](docs/RESULTS.md).
 
 ## What This Is
 
 - Reproducible 100.0-score solvers for public LS20, TR87, WA30, FT09, VC33,
-  and G50T environments.
+  G50T, and RE86 environments.
 - A compact demonstration that symbolic/state-space modeling can solve
   interactive ARC-AGI-3 games without an LLM policy.
 - A research artifact for spectral, graph, potential-field, and algebraic
@@ -135,6 +148,9 @@ Important files:
 - `v21_g50t_clone_solver.py`: G50T keyboard solver over rewind-created clone
   tracks, pressure gates, swap pads, autonomous actors, and synchronized
   replay.
+- `v22_re86_shape_solver.py`: RE86 shape/color solver over sparse target
+  masks, color pads, obstacle-driven rectangle resizing, and cross-axis
+  deformation.
 - `exotic/`: earlier math-first modules for perception, TDA, potential fields,
   group-state reasoning, temporal diffs, and state-machine experiments.
 - `diag_model_divergence.py`: compares the planner model against live runtime
@@ -158,6 +174,7 @@ python v18_wa30_object_solver.py --target-level 9
 python v19_ft09_constraint_solver.py --target-level 6
 python v20_vc33_geometry_solver.py --target-level 7
 python v21_g50t_clone_solver.py --target-level 7
+python v22_re86_shape_solver.py --target-level 8
 ```
 
 The public LS20 source currently contains 7 levels. Passing `--target-level 8`
@@ -173,6 +190,7 @@ v18_wa30_output/target_L9/
 v19_ft09_output/target_L6/
 v20_vc33_output/target_L7/
 v21_g50t_output/target_L7/
+v22_re86_output/target_L8/
 ```
 
 These generated files are ignored by git.
@@ -182,8 +200,9 @@ These generated files are ignored by git.
 The honest claim is:
 
 > Source-assisted symbolic/spectral planners solve public ARC-AGI-3 LS20,
-> TR87, WA30, FT09, VC33, and G50T environments with 100.0 scores, and provide
-> a concrete research path toward black-box interactive world-modeling agents.
+> TR87, WA30, FT09, VC33, G50T, and RE86 environments with 100.0 scores, and
+> provide a concrete research path toward black-box interactive world-modeling
+> agents.
 
 The claim to avoid is:
 

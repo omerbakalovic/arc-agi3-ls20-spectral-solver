@@ -381,3 +381,69 @@ Notes:
   switches, then combine actor-triggered swaps with final player routing.
 - Like the other runners, this is source-assisted and not yet a black-box
   ARC-AGI-3 agent.
+
+## RE86
+
+Command:
+
+```bash
+python v22_re86_shape_solver.py --target-level 8
+```
+
+Environment:
+
+```text
+game: re86
+environment id: re86-8af5384d
+available levels: 8
+requested target: 8
+effective target: 8
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 8 / 8
+completed: true
+state: WIN
+total_actions: 507
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 20 | 26 | 100.0 |
+| 2 | 36 | 42 | 100.0 |
+| 3 | 47 | 86 | 100.0 |
+| 4 | 42 | 108 | 100.0 |
+| 5 | 63 | 189 | 100.0 |
+| 6 | 46 | 139 | 100.0 |
+| 7 | 98 | 424 | 100.0 |
+| 8 | 155 | 241 | 100.0 |
+
+Generated keyboard plans:
+
+```text
+L1: RRRRUUUUUUUALLUUUUUU
+L2: LLLDDDDDDDDDDALLLLLLUUUUUUALLLLLLLDD
+L3: LUUUUUUUUUUUUUARRRRRRRRUUUUUUUUALLLLLLLLLUUUUUU
+L4: UUUUULLLLLLLDDDLLLLLLADDDDDDDDRRRRRRUUUUUL
+L5: ULLDRUUUUUUUUURRRADDDDDDDDDDRRRRRRRUUUUADDDDDDDLLLLLLLLLLLURRRR
+L6: UURRDRDRRRRRRRULRRRADDDDDLLULDDUUUUUULLLLLLLLL
+L7: UUUURRRUUULUUUURRRDRRRRRRDDDDDDDAUUUUUUUUUUUUURDDDDDURRRRRRRRAUUUUUURRRRLLLLLLLLLUUURDUUUUUUURRDDD
+L8: LLLDDDUUUUUUUUUUULLLLLLLURRRRRRRRUUUURRRDRRDRRDDLLLDDDDDDDDDLLLDDDDLLLLLLLLAUUUUUUUUUUUUUUDLLLLLLLLLLLLDDRRRRRRRRRUUUURRRDRRDRRDDLLLDDDDDDDDDLLLDLLLDLLLLLL
+```
+
+Notes:
+
+- RE86 is solved as a sparse target-composition problem over movable sprite
+  masks.
+- Levels 1-3 are direct geometric overlay plans.
+- Levels 4-5 add color-pad transport and recoloring.
+- Levels 6-8 add obstacle-driven deformation: special rectangles resize, and
+  cross sprites shift their full row or column through collision operators.
+- Like the other runners, this is source-assisted and not yet a black-box
+  ARC-AGI-3 agent.
