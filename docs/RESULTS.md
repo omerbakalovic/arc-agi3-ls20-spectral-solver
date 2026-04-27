@@ -251,3 +251,68 @@ Notes:
   minimal modulo clicks.
 - Like the other runners, this is source-assisted and not yet a black-box
   ARC-AGI-3 agent.
+
+## VC33
+
+Command:
+
+```bash
+python v20_vc33_geometry_solver.py --target-level 7
+```
+
+Environment:
+
+```text
+game: vc33
+environment id: vc33-5430563c
+available levels: 7
+requested target: 7
+effective target: 7
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 7 / 7
+completed: true
+state: WIN
+total_actions: 217
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 3 | 7 | 100.0 |
+| 2 | 7 | 18 | 100.0 |
+| 3 | 23 | 44 | 100.0 |
+| 4 | 21 | 61 | 100.0 |
+| 5 | 68 | 131 | 100.0 |
+| 6 | 20 | 34 | 100.0 |
+| 7 | 75 | 152 | 100.0 |
+
+Generated macro-click plans:
+
+```text
+L1: [1, 1, 1]
+L2: [1, 1, 3, 3, 3, 3, 3]
+L3: [0, 2, 0, 2, 0, 4, 2, 0, 4, 2, 0, 4, 2, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6]
+L4: [3, 3, 1, 3, 3, 3, 4, 4, 6, 4, 0, 6, 4, 6, 4, 6, 4, 6, 4, 6, 4]
+L5: [8, 8, 5, 5, 2, 5, 2, 5, 2, 5, 7, 3, 0, 3, 3, 3, 3, 4, 2, 2, 2, 2, 2, 2, 5, 5, 1, 3, 3, 3, 3, 3, 0, 3, 0, 6, 3, 0, 6, 3, 0, 0, 0, 5, 8, 5, 8, 5, 5, 5, 5, 4, 5, 5, 5, 5, 2, 5, 7, 8, 8, 8, 8, 8, 8, 8, 3, 0]
+L6: [0, 1, 1, 1, 2, 4, 4, 5, 5, 5, 5, 5, 5, 3, 1, 1, 1, 1, 1, 1]
+L7: [3, 6, 4, 6, 6, 6, 7, 7, 7, 7, 7, 1, 1, 1, 1, 1, 1, 5, 5, 5, 9, 8, 8, 8, 1, 1, 1, 10, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 4, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 6, 10, 5, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 4, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1]
+```
+
+Notes:
+
+- VC33 is solved as a one-dimensional platform transport system.
+- Small click sprites transfer platform mass between neighboring columns.
+- Bridge sprites swap markers between aligned platforms while preserving the
+  marker's progress coordinate.
+- Level 7 was found by a lightweight exact macro-state search over platform
+  heights, marker locations, and bridge readiness, then replayed on the real
+  ARC runtime.
+- Like the other runners, this is source-assisted and not yet a black-box
+  ARC-AGI-3 agent.
