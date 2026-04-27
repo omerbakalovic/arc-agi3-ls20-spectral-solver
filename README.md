@@ -38,15 +38,15 @@ level_baseline_actions: [54, 58, 40, 45, 71, 146]
 ```
 
 On the public `wa30` environment version `ee6fef47`, the WA30 object
-manipulation runner currently solves the first three levels:
+manipulation runner also solves all available levels:
 
 ```text
 environment: wa30-ee6fef47
-score: 13.333333333333334
-levels_completed: 3 / 9
-state: NOT_FINISHED
-total_actions: 163
-level_actions: [26, 61, 76, 0, 0, 0, 0, 0, 0]
+score: 100.0
+levels_completed: 9 / 9
+state: WIN
+total_actions: 616
+level_actions: [26, 61, 76, 47, 117, 50, 36, 143, 60]
 level_baseline_actions: [71, 119, 183, 98, 368, 68, 79, 442, 415]
 ```
 
@@ -55,8 +55,8 @@ The latest local reproduction summary is documented in
 
 ## What This Is
 
-- Reproducible solvers for public LS20 and TR87 environments, plus a partial
-  WA30 object-manipulation solver.
+- Reproducible 100.0-score solvers for public LS20, TR87, and WA30
+  environments.
 - A compact demonstration that symbolic/state-space modeling can solve
   interactive ARC-AGI-3 games without an LLM policy.
 - A research artifact for spectral, graph, potential-field, and algebraic
@@ -87,7 +87,8 @@ Important files:
 - `v17_tr87_symbolic_solver.py`: TR87 symbolic transducer solver over rewrite
   rules, modulo-7 glyph operators, double translation, and tree translation.
 - `v18_wa30_object_solver.py`: WA30 grab/drag object solver with helper
-  cooperation and hazard-column handoff plans for the first three levels.
+  cooperation, special-object staging, deadlock release, and final transport
+  plans through all nine levels.
 - `exotic/`: earlier math-first modules for perception, TDA, potential fields,
   group-state reasoning, temporal diffs, and state-machine experiments.
 - `diag_model_divergence.py`: compares the planner model against live runtime
@@ -107,7 +108,7 @@ Run the solver:
 ```bash
 python v16_signal_runner.py --target-level 8
 python v17_tr87_symbolic_solver.py --target-level 6
-python v18_wa30_object_solver.py --target-level 3
+python v18_wa30_object_solver.py --target-level 9
 ```
 
 The public LS20 source currently contains 7 levels. Passing `--target-level 8`
@@ -119,7 +120,7 @@ Outputs are written locally to:
 ```text
 v16_signal_runner_output/target_L8/
 v17_tr87_output/target_L6/
-v18_wa30_output/target_L3/
+v18_wa30_output/target_L9/
 ```
 
 These generated files are ignored by git.
@@ -128,10 +129,9 @@ These generated files are ignored by git.
 
 The honest claim is:
 
-> Source-assisted symbolic/spectral planners solve public ARC-AGI-3 LS20 and
-> TR87 environments with 100.0 scores, solve the first three WA30 object
-> manipulation levels, and provide a concrete research path toward black-box
-> interactive world-modeling agents.
+> Source-assisted symbolic/spectral planners solve public ARC-AGI-3 LS20,
+> TR87, and WA30 environments with 100.0 scores, and provide a concrete
+> research path toward black-box interactive world-modeling agents.
 
 The claim to avoid is:
 

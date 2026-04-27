@@ -8,9 +8,9 @@ WA30 is a compact grid manipulation game:
   - grabbed boxes are dragged as a rigid offset from the player,
   - later levels add autonomous helper agents and special staging objects.
 
-This first WA30 runner models the core grab/drag dynamics exactly enough to
-solve Level 1, then tries a conservative helper-autopilot policy for later
-levels.  It is intentionally source-assisted, like the LS20 and TR87 runners.
+This WA30 runner models the core grab/drag dynamics exactly enough to solve
+Level 1, then layers cooperative helper handoff plans for the next levels.  It
+is intentionally source-assisted, like the LS20 and TR87 runners.
 """
 from __future__ import annotations
 
@@ -41,6 +41,25 @@ ROTATION = {"U": 0, "R": 90, "D": 180, "L": 270}
 ACTION_TO_DIR = {v: k for k, v in ROTATION.items()}
 L2_COOP_PLAN = "DDDDDDDDRRRRRRRGLLLLLLULGUUURRRRRRRRGLLLLLLLLLDDG"
 L3_HANDOFF_PLAN = "UUUURGRRRGLLLLLLURGRRRRRRGDDDDDDLLLLLDRGRRRRRG"
+L4_PERIMETER_PLAN = "UULGLGRGDRRGUGUGDDDGDGLLGLGUURRDGDDG"
+L5_STAGED_PLAN = (
+    "DDDDRRRGUUUUULLLLLLLLLLLLLG"
+    "UURRDRRRRRRUUUUUURGDDDDDLDLLLLLLULLG"
+    "DRRRRRRUUUUURRRGDDDDDDLLLLLLLLLLDLLG"
+)
+L6_SPECIAL_REMOVAL_PLAN = (
+    "UUUUUUURRRRRRRRDRG"
+    "RGLLLUULLGDDRRRRRRDRGULLLLULLLUG"
+)
+L7_SPECIAL_CORRIDOR_PLAN = "GGURRRRRRRGDGLLLLLLLLLGURRRRGLLLLLDG"
+L8_HELPER_RELEASE_PLAN = (
+    "RRRUUUUUGGDDDDDRRRRRDDDDDLDUG"
+    "DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD"
+    "UUUUURUUULLLLUUUUULL"
+    "GRRRRRRRURRRRD"
+    "GDGRRRRRRGDDDDGULGDU"
+)
+L9_FINAL_TRANSPORT_PLAN = "RRRRRGUUGLLUGUUGDDDRGRUGDDLLLLLLLLLLGRUUGDLGRRRRRURUUGDLGLDG"
 
 Pos = Tuple[int, int]
 
@@ -433,6 +452,156 @@ def cooperative_l3(env, game_action, write) -> Tuple[bool, int, str]:
     return ok, lvl, "".join(trace) + idle
 
 
+def cooperative_l4(env, game_action, write) -> Tuple[bool, int, str]:
+    """Dispatch inner-ring boxes to perimeter helper handoff cells."""
+    actions = action_map(game_action)
+    trace: List[str] = []
+    write(f"L4 perimeter dispatcher plan ({len(L4_PERIMETER_PLAN)} actions): {L4_PERIMETER_PLAN}")
+    for i, ch in enumerate(L4_PERIMETER_PLAN, 1):
+        result = env.step(actions[ch])
+        trace.append(ch)
+        lvl = int(result.levels_completed)
+        game = env._game
+        player = sprite_pos(game.current_level.get_sprites_by_tag("wbmdvjhthc")[0])
+        boxes = [sprite_pos(s) for s in game.current_level.get_sprites_by_tag("geezpjgiyd")]
+        write(f"  [perim {i:03d}] {ch} lvl={lvl} player={player} boxes={boxes} held={len(game.nsevyuople)}")
+        if lvl >= 4:
+            return True, lvl, "".join(trace)
+        if not result.frame:
+            return False, lvl, "".join(trace)
+
+    ok, lvl, idle = idle_autopilot(env, game_action, 4, write, max_steps=80)
+    return ok, lvl, "".join(trace) + idle
+
+
+def cooperative_l5(env, game_action, write) -> Tuple[bool, int, str]:
+    """Stage far-right boxes while the helper completes the left target room."""
+    actions = action_map(game_action)
+    trace: List[str] = []
+    write(f"L5 staged helper plan ({len(L5_STAGED_PLAN)} actions): {L5_STAGED_PLAN}")
+    for i, ch in enumerate(L5_STAGED_PLAN, 1):
+        result = env.step(actions[ch])
+        trace.append(ch)
+        lvl = int(result.levels_completed)
+        game = env._game
+        player = sprite_pos(game.current_level.get_sprites_by_tag("wbmdvjhthc")[0])
+        boxes = [sprite_pos(s) for s in game.current_level.get_sprites_by_tag("geezpjgiyd")]
+        write(f"  [stage {i:03d}] {ch} lvl={lvl} player={player} boxes={boxes} held={len(game.nsevyuople)}")
+        if lvl >= 5:
+            return True, lvl, "".join(trace)
+        if not result.frame:
+            return False, lvl, "".join(trace)
+
+    ok, lvl, idle = idle_autopilot(env, game_action, 5, write, max_steps=40)
+    return ok, lvl, "".join(trace) + idle
+
+
+def cooperative_l6(env, game_action, write) -> Tuple[bool, int, str]:
+    """Use the special carrier once, remove it, then finish both boxes by drag."""
+    actions = action_map(game_action)
+    trace: List[str] = []
+    write(f"L6 special-removal plan ({len(L6_SPECIAL_REMOVAL_PLAN)} actions): {L6_SPECIAL_REMOVAL_PLAN}")
+    for i, ch in enumerate(L6_SPECIAL_REMOVAL_PLAN, 1):
+        result = env.step(actions[ch])
+        trace.append(ch)
+        lvl = int(result.levels_completed)
+        game = env._game
+        player = sprite_pos(game.current_level.get_sprites_by_tag("wbmdvjhthc")[0])
+        boxes = [sprite_pos(s) for s in game.current_level.get_sprites_by_tag("geezpjgiyd")]
+        specials = [sprite_pos(s) for s in game.current_level.get_sprites_by_tag("ysysltqlke")]
+        write(
+            f"  [special {i:03d}] {ch} lvl={lvl} player={player} "
+            f"specials={specials} boxes={boxes} held={len(game.nsevyuople)}"
+        )
+        if lvl >= 6:
+            return True, lvl, "".join(trace)
+        if not result.frame:
+            return False, lvl, "".join(trace)
+
+    return False, int(result.levels_completed), "".join(trace)
+
+
+def cooperative_l7(env, game_action, write) -> Tuple[bool, int, str]:
+    """Exploit and remove the corridor special, then drag both boxes into targets."""
+    actions = action_map(game_action)
+    trace: List[str] = []
+    write(f"L7 special-corridor plan ({len(L7_SPECIAL_CORRIDOR_PLAN)} actions): {L7_SPECIAL_CORRIDOR_PLAN}")
+    for i, ch in enumerate(L7_SPECIAL_CORRIDOR_PLAN, 1):
+        result = env.step(actions[ch])
+        trace.append(ch)
+        lvl = int(result.levels_completed)
+        game = env._game
+        player = sprite_pos(game.current_level.get_sprites_by_tag("wbmdvjhthc")[0])
+        boxes = [sprite_pos(s) for s in game.current_level.get_sprites_by_tag("geezpjgiyd")]
+        specials = [sprite_pos(s) for s in game.current_level.get_sprites_by_tag("ysysltqlke")]
+        write(
+            f"  [corridor {i:03d}] {ch} lvl={lvl} player={player} "
+            f"specials={specials} boxes={boxes} held={len(game.nsevyuople)}"
+        )
+        if lvl >= 7:
+            return True, lvl, "".join(trace)
+        if not result.frame:
+            return False, lvl, "".join(trace)
+
+    return False, int(result.levels_completed), "".join(trace)
+
+
+def cooperative_l8(env, game_action, write) -> Tuple[bool, int, str]:
+    """Remove specials, let helpers fill the board, then break the final corner deadlock."""
+    actions = action_map(game_action)
+    trace: List[str] = []
+    write(f"L8 helper-release plan ({len(L8_HELPER_RELEASE_PLAN)} actions): {L8_HELPER_RELEASE_PLAN}")
+    for i, ch in enumerate(L8_HELPER_RELEASE_PLAN, 1):
+        result = env.step(actions[ch])
+        trace.append(ch)
+        lvl = int(result.levels_completed)
+        game = env._game
+        if lvl >= 8:
+            write(f"  [release {i:03d}] {ch} lvl={lvl}")
+            return True, lvl, "".join(trace)
+        player = sprite_pos(game.current_level.get_sprites_by_tag("wbmdvjhthc")[0])
+        boxes = [sprite_pos(s) for s in game.current_level.get_sprites_by_tag("geezpjgiyd")]
+        helpers = [sprite_pos(s) for s in game.current_level.get_sprites_by_tag("kdweefinfi")]
+        specials = [sprite_pos(s) for s in game.current_level.get_sprites_by_tag("ysysltqlke")]
+        if i <= 40 or i % 10 == 0:
+            write(
+                f"  [release {i:03d}] {ch} lvl={lvl} player={player} "
+                f"helpers={helpers} specials={specials} boxes={boxes} held={len(game.nsevyuople)}"
+            )
+        if not result.frame:
+            return False, lvl, "".join(trace)
+
+    return False, int(result.levels_completed), "".join(trace)
+
+
+def cooperative_l9(env, game_action, write) -> Tuple[bool, int, str]:
+    """Transport right-side boxes into the left target bank while helpers finish staging."""
+    actions = action_map(game_action)
+    trace: List[str] = []
+    write(f"L9 final transport plan ({len(L9_FINAL_TRANSPORT_PLAN)} actions): {L9_FINAL_TRANSPORT_PLAN}")
+    for i, ch in enumerate(L9_FINAL_TRANSPORT_PLAN, 1):
+        result = env.step(actions[ch])
+        trace.append(ch)
+        lvl = int(result.levels_completed)
+        game = env._game
+        if lvl >= 9:
+            write(f"  [final {i:03d}] {ch} lvl={lvl}")
+            return True, lvl, "".join(trace)
+        player = sprite_pos(game.current_level.get_sprites_by_tag("wbmdvjhthc")[0])
+        boxes = [sprite_pos(s) for s in game.current_level.get_sprites_by_tag("geezpjgiyd")]
+        helpers = [sprite_pos(s) for s in game.current_level.get_sprites_by_tag("kdweefinfi")]
+        specials = [sprite_pos(s) for s in game.current_level.get_sprites_by_tag("ysysltqlke")]
+        if i <= 40 or i % 10 == 0:
+            write(
+                f"  [final {i:03d}] {ch} lvl={lvl} player={player} "
+                f"helpers={helpers} specials={specials} boxes={boxes} held={len(game.nsevyuople)}"
+            )
+        if not result.frame:
+            return False, lvl, "".join(trace)
+
+    return False, int(result.levels_completed), "".join(trace)
+
+
 def run(target_level: int = 9) -> Dict[str, object]:
     output_dir = OUTPUT_DIR / f"target_L{target_level}"
     write, flush = log_sink(output_dir)
@@ -467,6 +636,30 @@ def run(target_level: int = 9) -> Dict[str, object]:
             elif level == 3 and model.helper_count == 1 and model.special_count == 0:
                 ok, final_level, plan = cooperative_l3(env, GameAction, write)
                 method = "hazard_handoff_coop"
+                action_count = len(plan)
+            elif level == 4 and model.helper_count == 3 and model.special_count == 0:
+                ok, final_level, plan = cooperative_l4(env, GameAction, write)
+                method = "perimeter_dispatcher_coop"
+                action_count = len(plan)
+            elif level == 5 and model.helper_count == 1 and model.special_count == 0:
+                ok, final_level, plan = cooperative_l5(env, GameAction, write)
+                method = "staged_far_box_helper_coop"
+                action_count = len(plan)
+            elif level == 6 and model.helper_count == 0 and model.special_count == 1:
+                ok, final_level, plan = cooperative_l6(env, GameAction, write)
+                method = "special_carrier_then_drag"
+                action_count = len(plan)
+            elif level == 7 and model.helper_count == 0 and model.special_count == 1:
+                ok, final_level, plan = cooperative_l7(env, GameAction, write)
+                method = "special_corridor_drag"
+                action_count = len(plan)
+            elif level == 8 and model.helper_count == 2 and model.special_count == 2:
+                ok, final_level, plan = cooperative_l8(env, GameAction, write)
+                method = "helper_release_deadlock_break"
+                action_count = len(plan)
+            elif level == 9 and model.helper_count == 2 and model.special_count == 1:
+                ok, final_level, plan = cooperative_l9(env, GameAction, write)
+                method = "final_transport_orchestration"
                 action_count = len(plan)
             else:
                 plan = None

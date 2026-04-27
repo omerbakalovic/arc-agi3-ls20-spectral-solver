@@ -1,6 +1,6 @@
 # Reproduction Results
 
-Date: 2026-04-26
+Date: 2026-04-27
 
 ## LS20
 
@@ -124,7 +124,7 @@ Notes:
 Command:
 
 ```bash
-python v18_wa30_object_solver.py --target-level 3
+python v18_wa30_object_solver.py --target-level 9
 ```
 
 Environment:
@@ -133,18 +133,18 @@ Environment:
 game: wa30
 environment id: wa30-ee6fef47
 available levels: 9
-requested target: 3
-effective target: 3
+requested target: 9
+effective target: 9
 ```
 
 Final scorecard:
 
 ```text
-score: 13.333333333333334
-levels_completed: 3 / 9
-completed: false
-state: NOT_FINISHED
-total_actions: 163
+score: 100.0
+levels_completed: 9 / 9
+completed: true
+state: WIN
+total_actions: 616
 resets: 0
 ```
 
@@ -155,12 +155,12 @@ Per-level actions:
 | 1 | 26 | 71 | 100.0 |
 | 2 | 61 | 119 | 100.0 |
 | 3 | 76 | 183 | 100.0 |
-| 4 | 0 | 98 | 0.0 |
-| 5 | 0 | 368 | 0.0 |
-| 6 | 0 | 68 | 0.0 |
-| 7 | 0 | 79 | 0.0 |
-| 8 | 0 | 442 | 0.0 |
-| 9 | 0 | 415 | 0.0 |
+| 4 | 47 | 98 | 100.0 |
+| 5 | 117 | 368 | 100.0 |
+| 6 | 50 | 68 | 100.0 |
+| 7 | 36 | 79 | 100.0 |
+| 8 | 143 | 442 | 100.0 |
+| 9 | 60 | 415 | 100.0 |
 
 Generated player plans:
 
@@ -168,6 +168,12 @@ Generated player plans:
 L1: UUGUULGLULGURRRRDGRRUGDLLG
 L2: DDDDDDDDRRRRRRRGLLLLLLULGUUURRRRRRRRGLLLLLLLLLDDG
 L3: UUUURGRRRGLLLLLLURGRRRRRRGDDDDDDLLLLLDRGRRRRRG
+L4: UULGLGRGDRRGUGUGDDDGDGLLGLGUURRDGDDG
+L5: DDDDRRRGUUUUULLLLLLLLLLLLLGUURRDRRRRRRUUUUUURGDDDDDLDLLLLLLULLGDRRRRRRUUUUURRRGDDDDDDLLLLLLLLLLDLLG
+L6: UUUUUUURRRRRRRRDRGRGLLLUULLGDDRRRRRRDRGULLLLULLLUG
+L7: GGURRRRRRRGDGLLLLLLLLLGURRRRGLLLLLDG
+L8: RRRUUUUUGGDDDDDRRRRRDDDDDLDUGDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDUUUUURUUULLLLUUUUULLGRRRRRRRURRRRDGDGRRRRRRGDDDDGULGDU
+L9: RRRRRGUUGLLUGUUGDDDRGRUGDDLLLLLLLLLLGRUUGDLGRRRRRURUUGDLGLDG
 ```
 
 Notes:
@@ -178,5 +184,8 @@ Notes:
   far boxes while the helper solves the nearest boxes.
 - Level 3 is solved by a hazard-column handoff: the player moves left-side
   boxes to the `x=32` barrier, and the helper carries them to the target zone.
-- Level 4 is not solved yet; idle-helper rollout stalls after one outer box,
-  so the next step is a multi-helper interior-ring planner.
+- Levels 4-5 extend the helper handoff idea to multi-helper and staged
+  far-box layouts.
+- Levels 6-8 use special-object removal/staging and helper deadlock release.
+- Level 9 uses final transport orchestration: the player moves right-side boxes
+  into the left target bank while helpers and the special object finish staging.
