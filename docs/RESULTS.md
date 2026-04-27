@@ -508,3 +508,54 @@ Notes:
   and paint actions, then replayed against the real ARC runtime.
 - Like the other runners, this is source-assisted and not yet a black-box
   ARC-AGI-3 agent.
+
+## R11L
+
+Command:
+
+```bash
+python v24_r11l_centroid_solver.py --target-level 6
+```
+
+Environment:
+
+```text
+game: r11l
+environment id: r11l-495a7899
+available levels: 6
+requested target: 6
+effective target: 6
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 6 / 6
+completed: true
+state: WIN
+total_actions: 73
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 4 | 22 | 100.0 |
+| 2 | 9 | 33 | 100.0 |
+| 3 | 11 | 51 | 100.0 |
+| 4 | 14 | 26 | 100.0 |
+| 5 | 17 | 52 | 100.0 |
+| 6 | 18 | 49 | 100.0 |
+
+Notes:
+
+- R11L is solved as a centroid-control problem: small clickable points define
+  the position of a larger object.
+- The solver searches over safe intermediate centroid states, so paths avoid
+  hazard masks after every individual control-point move.
+- Levels 5-6 use blank carrier objects that collect colored fragments, match
+  target color sets, and then move to the target zones.
+- Like the other runners, this is source-assisted and not yet a black-box
+  ARC-AGI-3 agent.
