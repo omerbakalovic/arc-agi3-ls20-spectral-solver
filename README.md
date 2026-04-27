@@ -76,13 +76,26 @@ level_actions: [3, 7, 23, 21, 68, 20, 75]
 level_baseline_actions: [7, 18, 44, 61, 131, 34, 152]
 ```
 
+On the public `g50t` environment version `5849a774`, the G50T clone/rewind
+keyboard runner also solves all available levels:
+
+```text
+environment: g50t-5849a774
+score: 100.0
+levels_completed: 7 / 7
+state: WIN
+total_actions: 309
+level_actions: [17, 31, 64, 31, 50, 49, 67]
+level_baseline_actions: [78, 175, 179, 230, 96, 54, 67]
+```
+
 The latest local reproduction summary is documented in
 [`docs/RESULTS.md`](docs/RESULTS.md).
 
 ## What This Is
 
-- Reproducible 100.0-score solvers for public LS20, TR87, WA30, FT09, and
-  VC33 environments.
+- Reproducible 100.0-score solvers for public LS20, TR87, WA30, FT09, VC33,
+  and G50T environments.
 - A compact demonstration that symbolic/state-space modeling can solve
   interactive ARC-AGI-3 games without an LLM policy.
 - A research artifact for spectral, graph, potential-field, and algebraic
@@ -119,6 +132,9 @@ Important files:
   modulo-color operators, clue constraints, and GF(2)/center-only solutions.
 - `v20_vc33_geometry_solver.py`: VC33 click geometry solver over platform
   mass-transfer operators, bridge swaps, marker transport, and exact replay.
+- `v21_g50t_clone_solver.py`: G50T keyboard solver over rewind-created clone
+  tracks, pressure gates, swap pads, autonomous actors, and synchronized
+  replay.
 - `exotic/`: earlier math-first modules for perception, TDA, potential fields,
   group-state reasoning, temporal diffs, and state-machine experiments.
 - `diag_model_divergence.py`: compares the planner model against live runtime
@@ -141,6 +157,7 @@ python v17_tr87_symbolic_solver.py --target-level 6
 python v18_wa30_object_solver.py --target-level 9
 python v19_ft09_constraint_solver.py --target-level 6
 python v20_vc33_geometry_solver.py --target-level 7
+python v21_g50t_clone_solver.py --target-level 7
 ```
 
 The public LS20 source currently contains 7 levels. Passing `--target-level 8`
@@ -155,6 +172,7 @@ v17_tr87_output/target_L6/
 v18_wa30_output/target_L9/
 v19_ft09_output/target_L6/
 v20_vc33_output/target_L7/
+v21_g50t_output/target_L7/
 ```
 
 These generated files are ignored by git.
@@ -164,8 +182,8 @@ These generated files are ignored by git.
 The honest claim is:
 
 > Source-assisted symbolic/spectral planners solve public ARC-AGI-3 LS20,
-> TR87, WA30, FT09, and VC33 environments with 100.0 scores, and provide a
-> concrete research path toward black-box interactive world-modeling agents.
+> TR87, WA30, FT09, VC33, and G50T environments with 100.0 scores, and provide
+> a concrete research path toward black-box interactive world-modeling agents.
 
 The claim to avoid is:
 

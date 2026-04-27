@@ -316,3 +316,68 @@ Notes:
   ARC runtime.
 - Like the other runners, this is source-assisted and not yet a black-box
   ARC-AGI-3 agent.
+
+## G50T
+
+Command:
+
+```bash
+python v21_g50t_clone_solver.py --target-level 7
+```
+
+Environment:
+
+```text
+game: g50t
+environment id: g50t-5849a774
+available levels: 7
+requested target: 7
+effective target: 7
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 7 / 7
+completed: true
+state: WIN
+total_actions: 309
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 17 | 78 | 100.0 |
+| 2 | 31 | 175 | 100.0 |
+| 3 | 64 | 179 | 100.0 |
+| 4 | 31 | 230 | 100.0 |
+| 5 | 50 | 96 | 100.0 |
+| 6 | 49 | 54 | 100.0 |
+| 7 | 67 | 67 | 100.0 |
+
+Generated keyboard plans:
+
+```text
+L1: RRRRADDDDDDDRRRRR
+L2: LLADDDDLLLLUULLAUUULLLLLLLDDRRR
+L3: UURRRRDDDDRAUURRRRRRRDDDDDDDLLLLLAUURRRRRRRDDDDDDDLLLLLLLUUURRUU
+L4: DDRDADDRRUURRDDDALLLDDDDDRRRLLL
+L5: UDDRRRDDDADRRRUURRRDDDRRRADRRRUURRRDDDDDRLDLLLLLUU
+L6: LLUALLULLALLDLLLLUULLLDDDDDRRUDLLUUUUURRRDDRRDDRR
+L7: DDLRUULLUUADDRRUUUURRDDDDUUUULLLUURRRADDRRUUUURRDDDDUDUDUDUDUDUDLLL
+```
+
+Notes:
+
+- G50T is a keyboard puzzle centered on ACTION5 rewind/clone semantics.
+- Rewound movement histories become clone tracks; later moves advance the live
+  player, clones, and autonomous actors in synchronized time.
+- Levels 1-3 use clone-held pressure gates and timed moving-door passages.
+- Levels 4-5 add paired swap pads driven by pressure triggers.
+- Levels 6-7 use clone-opened corridors to steer autonomous actors onto
+  switches, then combine actor-triggered swaps with final player routing.
+- Like the other runners, this is source-assisted and not yet a black-box
+  ARC-AGI-3 agent.
