@@ -1,4 +1,4 @@
-# ARC-AGI-3 LS20 Spectral Signal Solver
+# ARC-AGI-3 Spectral Signal Solvers
 
 This repository contains experimental, math-first solvers for public ARC-AGI-3
 environments.
@@ -50,12 +50,25 @@ level_actions: [26, 61, 76, 47, 117, 50, 36, 143, 60]
 level_baseline_actions: [71, 119, 183, 98, 368, 68, 79, 442, 415]
 ```
 
+On the public `ft09` environment version `0d8bbf25`, the FT09 click-constraint
+runner also solves all available levels:
+
+```text
+environment: ft09-0d8bbf25
+score: 100.0
+levels_completed: 6 / 6
+state: WIN
+total_actions: 75
+level_actions: [4, 7, 14, 16, 21, 13]
+level_baseline_actions: [43, 12, 23, 28, 65, 37]
+```
+
 The latest local reproduction summary is documented in
 [`docs/RESULTS.md`](docs/RESULTS.md).
 
 ## What This Is
 
-- Reproducible 100.0-score solvers for public LS20, TR87, and WA30
+- Reproducible 100.0-score solvers for public LS20, TR87, WA30, and FT09
   environments.
 - A compact demonstration that symbolic/state-space modeling can solve
   interactive ARC-AGI-3 games without an LLM policy.
@@ -89,6 +102,8 @@ Important files:
 - `v18_wa30_object_solver.py`: WA30 grab/drag object solver with helper
   cooperation, special-object staging, deadlock release, and final transport
   plans through all nine levels.
+- `v19_ft09_constraint_solver.py`: FT09 click/constraint solver over
+  modulo-color operators, clue constraints, and GF(2)/center-only solutions.
 - `exotic/`: earlier math-first modules for perception, TDA, potential fields,
   group-state reasoning, temporal diffs, and state-machine experiments.
 - `diag_model_divergence.py`: compares the planner model against live runtime
@@ -109,6 +124,7 @@ Run the solver:
 python v16_signal_runner.py --target-level 8
 python v17_tr87_symbolic_solver.py --target-level 6
 python v18_wa30_object_solver.py --target-level 9
+python v19_ft09_constraint_solver.py --target-level 6
 ```
 
 The public LS20 source currently contains 7 levels. Passing `--target-level 8`
@@ -121,6 +137,7 @@ Outputs are written locally to:
 v16_signal_runner_output/target_L8/
 v17_tr87_output/target_L6/
 v18_wa30_output/target_L9/
+v19_ft09_output/target_L6/
 ```
 
 These generated files are ignored by git.
@@ -130,8 +147,8 @@ These generated files are ignored by git.
 The honest claim is:
 
 > Source-assisted symbolic/spectral planners solve public ARC-AGI-3 LS20,
-> TR87, and WA30 environments with 100.0 scores, and provide a concrete
-> research path toward black-box interactive world-modeling agents.
+> TR87, WA30, and FT09 environments with 100.0 scores, and provide a
+> concrete research path toward black-box interactive world-modeling agents.
 
 The claim to avoid is:
 

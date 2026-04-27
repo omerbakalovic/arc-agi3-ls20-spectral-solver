@@ -189,3 +189,65 @@ Notes:
 - Levels 6-8 use special-object removal/staging and helper deadlock release.
 - Level 9 uses final transport orchestration: the player moves right-side boxes
   into the left target bank while helpers and the special object finish staging.
+
+## FT09
+
+Command:
+
+```bash
+python v19_ft09_constraint_solver.py --target-level 6
+```
+
+Environment:
+
+```text
+game: ft09
+environment id: ft09-0d8bbf25
+available levels: 6
+requested target: 6
+effective target: 6
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 6 / 6
+completed: true
+state: WIN
+total_actions: 75
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 4 | 43 | 100.0 |
+| 2 | 7 | 12 | 100.0 |
+| 3 | 14 | 23 | 100.0 |
+| 4 | 16 | 28 | 100.0 |
+| 5 | 21 | 65 | 100.0 |
+| 6 | 13 | 37 | 100.0 |
+
+Generated click plans:
+
+```text
+L1: (18,18), (18,22), (26,22), (18,26)
+L2: (10,7), (10,11), (18,11), (10,15), (18,15), (10,23), (14,23)
+L3: (10,2), (14,2), (18,2), (10,6), (6,10), (14,10), (6,14), (22,14), (14,18), (22,18), (10,22), (10,26), (14,26), (18,26)
+L4: (10,7)x2, (14,7), (22,7), (14,11), (22,11), (10,15)x2, (14,15), (18,15), (10,23)x2, (14,23)x2, (18,23)x2
+L5: (11,2), (15,2), (7,6), (11,6), (15,6), (7,10), (15,10), (23,10), (7,14), (11,14), (15,14), (7,18), (15,18), (19,18), (23,18), (15,22), (19,22), (23,22), (7,26), (15,26), (19,26)
+L6: (2,3), (2,7), (10,7), (18,7), (6,11), (10,11), (6,15), (14,15), (18,15), (22,15), (10,19), (22,19), (26,19)
+```
+
+Notes:
+
+- FT09 is solved as a modulo-color click constraint system.
+- `Hkx` sprites use the level click kernel; `NTi` sprites use center plus
+  marked `6` offsets.
+- Binary-palette levels are solved by GF(2) elimination.
+- The three-color center-only level is solved by choosing allowed values with
+  minimal modulo clicks.
+- Like the other runners, this is source-assisted and not yet a black-box
+  ARC-AGI-3 agent.
