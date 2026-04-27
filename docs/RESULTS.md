@@ -447,3 +447,64 @@ Notes:
   cross sprites shift their full row or column through collision operators.
 - Like the other runners, this is source-assisted and not yet a black-box
   ARC-AGI-3 agent.
+
+## CD82
+
+Command:
+
+```bash
+python v23_cd82_paint_solver.py --target-level 6
+```
+
+Environment:
+
+```text
+game: cd82
+environment id: cd82-fb555c5d
+available levels: 6
+requested target: 6
+effective target: 6
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 6 / 6
+completed: true
+state: WIN
+total_actions: 70
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 5 | 55 | 100.0 |
+| 2 | 6 | 8 | 100.0 |
+| 3 | 16 | 41 | 100.0 |
+| 4 | 14 | 21 | 100.0 |
+| 5 | 13 | 23 | 100.0 |
+| 6 | 16 | 23 | 100.0 |
+
+Generated keyboard/click plans:
+
+```text
+L1: URRDP
+L2: P[C12]DRRP
+L3: [C8]DRRP[C14]LP[C15]LUUP[C12]DA
+L4: [C12]P[C15]DRRP[C9]UULP[C11]A
+L5: [C9]P[C8]A[C14]URRP[C12]DDP
+L6: [C14]DRP[C8]LUUP[C11]RA[C15]LDA
+```
+
+Notes:
+
+- CD82 is solved as a 10x10 target-painting signal.
+- The solver reverse-peels the target into uniform paint primitives: basket
+  half-planes and arrow strip strokes.
+- The resulting strokes are compiled into color selections, brush movement,
+  and paint actions, then replayed against the real ARC runtime.
+- Like the other runners, this is source-assisted and not yet a black-box
+  ARC-AGI-3 agent.
