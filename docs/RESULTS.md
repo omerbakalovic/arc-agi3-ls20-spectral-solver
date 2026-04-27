@@ -624,3 +624,69 @@ Notes:
   positions, then replays the click coordinates against the real ARC runtime.
 - Like the other runners, this is source-assisted and not yet a black-box
   ARC-AGI-3 agent.
+
+## SB26
+
+Command:
+
+```bash
+python v26_sb26_tape_solver.py --target-level 8
+```
+
+Environment:
+
+```text
+game: sb26
+environment id: sb26-7fbdac44
+available levels: 8
+requested target: 8
+effective target: 8
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 8 / 8
+completed: true
+state: WIN
+total_actions: 124
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 9 | 18 | 100.0 |
+| 2 | 15 | 28 | 100.0 |
+| 3 | 15 | 18 | 100.0 |
+| 4 | 15 | 19 | 100.0 |
+| 5 | 17 | 31 | 100.0 |
+| 6 | 19 | 23 | 100.0 |
+| 7 | 17 | 58 | 100.0 |
+| 8 | 17 | 18 | 100.0 |
+
+Generated tape placements:
+
+```text
+L1: T9@(20,27) T14@(26,27) T11@(32,27) T15@(38,27)
+L2: T12@(20,20) T15@(26,20) T6@(38,20) T8@(20,34) T9@(26,34) T14@(32,34) T11@(38,34)
+L3: T8@(17,21) T11@(29,21) T12@(41,21) T14@(17,33) T15@(23,33) T6@(35,33) T9@(41,33)
+L4: T11@(17,20) T8@(23,20) P14@(29,20) T12@(35,20) T15@(41,20) T9@(29,34) T6@(35,34)
+L5: T6@(17,20) P9@(23,20) P9@(29,20) T11@(35,20) T15@(41,20) T14@(23,34) T8@(29,34) T8@(35,34)
+L6: P9@(10,20) P12@(16,20) P14@(22,20) T6@(42,20) T6@(48,20) T11@(16,34) T11@(22,34) T15@(42,34) T15@(48,34)
+L7: T8@(23,14) T9@(29,14) P9@(35,14) P14@(23,27) T9@(29,27) T8@(35,27) T14@(23,40) T14@(35,40)
+L8: T8@(20,24) T11@(26,24) T12@(32,24) P9@(38,24) T9@(20,38) T14@(26,38) T15@(32,38) P8@(38,38)
+```
+
+Notes:
+
+- SB26 is solved as a small tape language: tile tokens emit colors, portal
+  tokens call another frame, and the root frame must emit the target row.
+- The solver backtracks over token placements and validates the resulting
+  call-stack expansion before replay.
+- Each placement is compiled into two clicks, followed by one `ACTION5` to run
+  the tape verifier.
+- Like the other runners, this is source-assisted and not yet a black-box
+  ARC-AGI-3 agent.
