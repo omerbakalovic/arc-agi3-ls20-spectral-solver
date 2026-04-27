@@ -559,3 +559,68 @@ Notes:
   target color sets, and then move to the target zones.
 - Like the other runners, this is source-assisted and not yet a black-box
   ARC-AGI-3 agent.
+
+## LP85
+
+Command:
+
+```bash
+python v25_lp85_permutation_solver.py --target-level 8
+```
+
+Environment:
+
+```text
+game: lp85
+environment id: lp85-305b61c3
+available levels: 8
+requested target: 8
+effective target: 8
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 8 / 8
+completed: true
+state: WIN
+total_actions: 79
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 5 | 17 | 100.0 |
+| 2 | 8 | 38 | 100.0 |
+| 3 | 16 | 31 | 100.0 |
+| 4 | 12 | 16 | 100.0 |
+| 5 | 9 | 41 | 100.0 |
+| 6 | 19 | 60 | 100.0 |
+| 7 | 5 | 26 | 100.0 |
+| 8 | 5 | 159 | 100.0 |
+
+Generated click/operator plans:
+
+```text
+L1: AL AL AL AL AL
+L2: AR CR CR CR AR AR AR CR
+L3: AL AL AL AL BL BL BL BL AL BL AL AL AL AL AL BL
+L4: BL BL BL BL AL AL AL AL AL AL AL AL
+L5: AR AR BR AL BL AL AL AL AL
+L6: 13R+11R+9R+16R+10R+12R+14R+15R 13R+11R+9R+16R+10R+12R+14R+15R 8R+3R+1R+4R+5R+2R+6R+7R 8R+3R+1R+4R+5R+2R+6R+7R BR+CR+AR BR+CR+AR 23R+18R+24R+22R+17R+20R+19R+21R 23R+18R+24R+22R+17R+20R+19R+21R IR+GR+HR IR+GR+HR IR+GR+HR IR+GR+HR IR+GR+HR IR+GR+HR DR+ER+FR DR+ER+FR DR+ER+FR DR+ER+FR 27R+25R+26R
+L7: DR+AR BL AL+DL BR AL+DL
+L8: DR+ER+FR AL BR CR EL+DL+FL
+```
+
+Notes:
+
+- LP85 is solved as a finite permutation system over movable goal sprites.
+- Each click may represent a stacked macro-button: the runtime applies every
+  overlapping `button_*` operator in source order.
+- The solver searches the induced state space of `goal` and `goal-o` sprite
+  positions, then replays the click coordinates against the real ARC runtime.
+- Like the other runners, this is source-assisted and not yet a black-box
+  ARC-AGI-3 agent.

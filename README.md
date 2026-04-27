@@ -128,13 +128,26 @@ level_actions: [4, 9, 11, 14, 17, 18]
 level_baseline_actions: [22, 33, 51, 26, 52, 49]
 ```
 
+On the public `lp85` environment version `305b61c3`, the LP85 permutation
+solver also solves all available levels:
+
+```text
+environment: lp85-305b61c3
+score: 100.0
+levels_completed: 8 / 8
+state: WIN
+total_actions: 79
+level_actions: [5, 8, 16, 12, 9, 19, 5, 5]
+level_baseline_actions: [17, 38, 31, 16, 41, 60, 26, 159]
+```
+
 The latest local reproduction summary is documented in
 [`docs/RESULTS.md`](docs/RESULTS.md).
 
 ## What This Is
 
 - Reproducible 100.0-score solvers for public LS20, TR87, WA30, FT09, VC33,
-  G50T, RE86, CD82, and R11L environments.
+  G50T, RE86, CD82, R11L, and LP85 environments.
 - A compact demonstration that symbolic/state-space modeling can solve
   interactive ARC-AGI-3 games without an LLM policy.
 - A research artifact for spectral, graph, potential-field, and algebraic
@@ -183,6 +196,8 @@ Important files:
 - `v24_r11l_centroid_solver.py`: R11L click solver over centroid-controlled
   objects, hazard-safe intermediate states, and color-fragment carrier
   delivery.
+- `v25_lp85_permutation_solver.py`: LP85 click solver over stacked button
+  operators, map-cycle permutations, and goal-sprite placement.
 - `exotic/`: earlier math-first modules for perception, TDA, potential fields,
   group-state reasoning, temporal diffs, and state-machine experiments.
 - `diag_model_divergence.py`: compares the planner model against live runtime
@@ -209,6 +224,7 @@ python v21_g50t_clone_solver.py --target-level 7
 python v22_re86_shape_solver.py --target-level 8
 python v23_cd82_paint_solver.py --target-level 6
 python v24_r11l_centroid_solver.py --target-level 6
+python v25_lp85_permutation_solver.py --target-level 8
 ```
 
 The public LS20 source currently contains 7 levels. Passing `--target-level 8`
@@ -227,6 +243,7 @@ v21_g50t_output/target_L7/
 v22_re86_output/target_L8/
 v23_cd82_output/target_L6/
 v24_r11l_output/target_L6/
+v25_lp85_output/target_L8/
 ```
 
 These generated files are ignored by git.
@@ -236,9 +253,9 @@ These generated files are ignored by git.
 The honest claim is:
 
 > Source-assisted symbolic/spectral planners solve public ARC-AGI-3 LS20,
-> TR87, WA30, FT09, VC33, G50T, RE86, CD82, and R11L environments with 100.0
-> scores, and provide a concrete research path toward black-box interactive
-> world-modeling agents.
+> TR87, WA30, FT09, VC33, G50T, RE86, CD82, R11L, and LP85 environments with
+> 100.0 scores, and provide a concrete research path toward black-box
+> interactive world-modeling agents.
 
 The claim to avoid is:
 
