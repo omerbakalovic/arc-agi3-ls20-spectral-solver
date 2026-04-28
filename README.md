@@ -154,6 +154,19 @@ level_actions: [9, 15, 15, 15, 17, 19, 17, 17]
 level_baseline_actions: [18, 28, 18, 19, 31, 23, 58, 18]
 ```
 
+On the public `su15` environment version `1944f8ab`, the SU15 click/particle
+solver currently solves the first four levels:
+
+```text
+environment: su15-1944f8ab
+score: 22.22222222222222
+levels_completed: 4 / 9
+state: NOT_FINISHED
+total_actions: 49
+level_actions: [8, 12, 17, 12, 0, 0, 0, 0, 0]
+level_baseline_actions: [22, 42, 26, 115, 36, 31, 8, 40, 41]
+```
+
 The latest local reproduction summary is documented in
 [`docs/RESULTS.md`](docs/RESULTS.md).
 
@@ -161,6 +174,8 @@ The latest local reproduction summary is documented in
 
 - Reproducible 100.0-score solvers for public LS20, TR87, WA30, FT09, VC33,
   G50T, RE86, CD82, R11L, LP85, and SB26 environments.
+- A SU15 checkpoint solving 4/9 levels while exposing the next particle-control
+  planning problem.
 - A compact demonstration that symbolic/state-space modeling can solve
   interactive ARC-AGI-3 games without an LLM policy.
 - A research artifact for spectral, graph, potential-field, and algebraic
@@ -213,6 +228,8 @@ Important files:
   operators, map-cycle permutations, and goal-sprite placement.
 - `v26_sb26_tape_solver.py`: SB26 keyboard/click solver over colored tape
   tokens, portal/call-stack expansion, and target-sequence placement.
+- `v27_su15_particle_solver.py`: SU15 click/merge checkpoint over numbered
+  block merges and the first explicit particle-hazard route.
 - `exotic/`: earlier math-first modules for perception, TDA, potential fields,
   group-state reasoning, temporal diffs, and state-machine experiments.
 - `diag_model_divergence.py`: compares the planner model against live runtime

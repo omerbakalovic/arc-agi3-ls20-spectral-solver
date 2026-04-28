@@ -690,3 +690,65 @@ Notes:
   the tape verifier.
 - Like the other runners, this is source-assisted and not yet a black-box
   ARC-AGI-3 agent.
+
+## SU15
+
+Command:
+
+```bash
+python v27_su15_particle_solver.py --target-level 4
+```
+
+Environment:
+
+```text
+game: su15
+environment id: su15-1944f8ab
+available levels: 9
+requested target: 4
+effective target: 4
+```
+
+Final scorecard:
+
+```text
+score: 22.22222222222222
+levels_completed: 4 / 9
+completed: false
+state: NOT_FINISHED
+total_actions: 49
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 8 | 22 | 100.0 |
+| 2 | 12 | 42 | 100.0 |
+| 3 | 17 | 26 | 100.0 |
+| 4 | 12 | 115 | 100.0 |
+| 5 | 0 | 36 | 0.0 |
+| 6 | 0 | 31 | 0.0 |
+| 7 | 0 | 8 | 0.0 |
+| 8 | 0 | 40 | 0.0 |
+| 9 | 0 | 41 | 0.0 |
+
+Generated click plans:
+
+```text
+L1: (4,50) (8,42) (12,34) (16,26) (20,18) (28,14) (36,14) (44,14)
+L2: (16,54) (48,54) (24,54) (32,54) (40,54) (16,38) (40,38) (24,38) (32,38) (36,46) (32,38) (32,30)
+L3: (60,22) (32,18) (12,26) (20,18) (16,22) (32,26) (24,22) (52,22) (48,26) (44,34) (36,38) (28,42) (20,46) (12,50) (24,30) (24,38) (24,46)
+L4: (32,30) (32,46) (32,38) (48,30) (8,26) (8,42) (8,34) (24,38) (16,36) (12,44) (8,52) (8,56)
+```
+
+Notes:
+
+- SU15 is a click merge puzzle: equal numbered blocks merge into the next
+  value when selected and overlapped by a click.
+- Level 4 introduces the first particle hazard.  The plan pushes the particle
+  away long enough to build and place the required level-3 block.
+- Level 5 remains the next open frontier: particles can decrement both
+  intermediate level-2 blocks before they merge, so the solver needs a more
+  explicit particle-control or compensation planner.
