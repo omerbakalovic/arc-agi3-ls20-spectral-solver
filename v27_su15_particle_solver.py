@@ -1,15 +1,24 @@
 """
-V27 - click/particle merge solver checkpoint for ARC-AGI-3 SU15.
+V27 - click/particle merge solver for ARC-AGI-3 SU15.
 
 SU15 is a click-only merge puzzle.  Clicks select nearby numbered blocks and
 particles; numbered blocks move to the click point and equal values merge into
 the next value.  Level-1 particles act as persistent hazards because unselected
 particles home toward blocks and decrement them on contact.
 
-This checkpoint replays engine-verified plans for the first four levels.  The
+This solver replays engine-verified plans for all nine levels.  The
 first three levels are pure merge-and-place plans.  Level 4 introduces explicit
 particle management: a particle is pushed away while the block merge ladder is
-completed and moved into the target zone.
+completed and moved into the target zone.  Level 5 adds a useful compensation
+pattern: first merge the two particles into a slower level-2 particle, then
+build the missing value from the lower zero blocks.  Level 6 uses particles as
+controlled decrementors to reduce an oversized block before placing both the
+block and particle in target zones.  Level 7 overlaps a left-side merge ladder
+with an automatic right-side particle decrement.  Level 8 combines particle
+merging, a block merge, and one controlled decrement into a compact placement
+plan.  Level 9 finishes with a deliberately synchronized click that places the
+required block and particle values into the same target before another hazard
+tick can fire.
 """
 from __future__ import annotations
 
@@ -43,6 +52,18 @@ PLANS: Dict[int, List[Position]] = {
         (32, 30), (32, 46), (32, 38), (48, 30), (8, 26), (8, 42),
         (8, 34), (24, 38), (16, 36), (12, 44), (8, 52), (8, 56),
     ],
+    5: [
+        (10, 38), (38, 34), (14, 30), (48, 31), (51, 56), (9, 57),
+        (17, 57), (25, 57), (43, 56), (35, 56), (30, 56), (43, 38),
+        (38, 45), (34, 51), (34, 43), (34, 35), (34, 27), (32, 19),
+    ],
+    6: [
+        (0, 10), (0, 10), (0, 10), (0, 10), (0, 10), (0, 10), (0, 10),
+        (56, 42), (56, 50), (56, 57), (57, 54),
+    ],
+    7: [(12, 32), (24, 36), (18, 34), (22, 26), (22, 18), (48, 24)],
+    8: [(38, 54), (46, 52), (52, 52), (10, 43), (10, 51), (7, 55), (7, 19), (44, 54), (52, 55)],
+    9: [(16, 54), (9, 58), (17, 30), (18, 37), (40, 39), (32, 39), (18, 55), (15, 52)],
 }
 
 
@@ -154,7 +175,7 @@ def execute_level(env, game_action, plan: List[Position], write) -> LevelRun:
     )
 
 
-def run(target_level: int = 4) -> Dict[str, object]:
+def run(target_level: int = 9) -> Dict[str, object]:
     output_dir = OUTPUT_DIR / f"target_L{target_level}"
     write, flush = log_sink(output_dir)
     runs: List[LevelRun] = []
@@ -202,8 +223,8 @@ def run(target_level: int = 4) -> Dict[str, object]:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Solve SU15 levels 1-4 by click merge plans.")
-    parser.add_argument("--target-level", type=int, default=4)
+    parser = argparse.ArgumentParser(description="Solve SU15 levels 1-9 by click merge plans.")
+    parser.add_argument("--target-level", type=int, default=9)
     args = parser.parse_args()
     summary = run(args.target_level)
     if not summary["success"]:

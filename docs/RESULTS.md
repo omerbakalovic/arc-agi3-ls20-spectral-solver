@@ -696,7 +696,7 @@ Notes:
 Command:
 
 ```bash
-python v27_su15_particle_solver.py --target-level 4
+python v27_su15_particle_solver.py --target-level 9
 ```
 
 Environment:
@@ -705,18 +705,18 @@ Environment:
 game: su15
 environment id: su15-1944f8ab
 available levels: 9
-requested target: 4
-effective target: 4
+requested target: 9
+effective target: 9
 ```
 
 Final scorecard:
 
 ```text
-score: 22.22222222222222
-levels_completed: 4 / 9
-completed: false
-state: NOT_FINISHED
-total_actions: 49
+score: 100.0
+levels_completed: 9 / 9
+completed: true
+state: WIN
+total_actions: 101
 resets: 0
 ```
 
@@ -728,11 +728,11 @@ Per-level actions:
 | 2 | 12 | 42 | 100.0 |
 | 3 | 17 | 26 | 100.0 |
 | 4 | 12 | 115 | 100.0 |
-| 5 | 0 | 36 | 0.0 |
-| 6 | 0 | 31 | 0.0 |
-| 7 | 0 | 8 | 0.0 |
-| 8 | 0 | 40 | 0.0 |
-| 9 | 0 | 41 | 0.0 |
+| 5 | 18 | 36 | 100.0 |
+| 6 | 11 | 31 | 100.0 |
+| 7 | 6 | 8 | 100.0 |
+| 8 | 9 | 40 | 100.0 |
+| 9 | 8 | 41 | 100.0 |
 
 Generated click plans:
 
@@ -741,6 +741,11 @@ L1: (4,50) (8,42) (12,34) (16,26) (20,18) (28,14) (36,14) (44,14)
 L2: (16,54) (48,54) (24,54) (32,54) (40,54) (16,38) (40,38) (24,38) (32,38) (36,46) (32,38) (32,30)
 L3: (60,22) (32,18) (12,26) (20,18) (16,22) (32,26) (24,22) (52,22) (48,26) (44,34) (36,38) (28,42) (20,46) (12,50) (24,30) (24,38) (24,46)
 L4: (32,30) (32,46) (32,38) (48,30) (8,26) (8,42) (8,34) (24,38) (16,36) (12,44) (8,52) (8,56)
+L5: (10,38) (38,34) (14,30) (48,31) (51,56) (9,57) (17,57) (25,57) (43,56) (35,56) (30,56) (43,38) (38,45) (34,51) (34,43) (34,35) (34,27) (32,19)
+L6: (0,10) (0,10) (0,10) (0,10) (0,10) (0,10) (0,10) (56,42) (56,50) (56,57) (57,54)
+L7: (12,32) (24,36) (18,34) (22,26) (22,18) (48,24)
+L8: (38,54) (46,52) (52,52) (10,43) (10,51) (7,55) (7,19) (44,54) (52,55)
+L9: (16,54) (9,58) (17,30) (18,37) (40,39) (32,39) (18,55) (15,52)
 ```
 
 Notes:
@@ -749,6 +754,10 @@ Notes:
   value when selected and overlapped by a click.
 - Level 4 introduces the first particle hazard.  The plan pushes the particle
   away long enough to build and place the required level-3 block.
-- Level 5 remains the next open frontier: particles can decrement both
-  intermediate level-2 blocks before they merge, so the solver needs a more
-  explicit particle-control or compensation planner.
+- Level 5 is solved by first merging the two particles into a single level-2
+  particle, sacrificing one surplus unit, then rebuilding the second level-2
+  block from lower zero blocks before the final level-3 merge.
+- Levels 6-8 reuse the same particle-decrement mechanics as deliberate
+  operators rather than hazards.
+- Level 9 completes with a synchronized final click that places z2, z4, and p3
+  into the same target zone before another particle collision can fire.
