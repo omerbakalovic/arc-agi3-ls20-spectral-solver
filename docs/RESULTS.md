@@ -1,6 +1,6 @@
 # Reproduction Results
 
-Date: 2026-04-27
+Date: 2026-04-29
 
 ## LS20
 
@@ -761,3 +761,122 @@ Notes:
   operators rather than hazards.
 - Level 9 completes with a synchronized final click that places z2, z4, and p3
   into the same target zone before another particle collision can fire.
+
+## TN36
+
+Command:
+
+```bash
+python v28_tn36_program_solver.py --target-level 7
+```
+
+Environment:
+
+```text
+game: tn36
+environment id: tn36-ef4dde99
+available levels: 7
+requested target: 7
+effective target: 7
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 7 / 7
+completed: true
+state: WIN
+total_actions: 92
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 7 | 32 | 100.0 |
+| 2 | 9 | 72 | 100.0 |
+| 3 | 9 | 26 | 100.0 |
+| 4 | 13 | 40 | 100.0 |
+| 5 | 16 | 30 | 100.0 |
+| 6 | 21 | 55 | 100.0 |
+| 7 | 17 | 62 | 100.0 |
+
+Generated opcode programs:
+
+```text
+L1: [3, 3, 3, 3, 3]
+L2: [33, 33, 33, 33]
+L3: [2, 33, 2, 2, 2, 33]
+L4: [9, 34, 3, 3, 3, 3]
+L5: [3, 3, 3, 5, 8, 63]
+L6: [0, 0, 10, 10, 33, 33] -> [0, 12, 33, 33, 33, 1]
+L7: [0, 0, 0, 2, 10, 33] -> [33, 33, 33, 1, 12, 33]
+```
+
+Notes:
+
+- TN36 is solved as a tiny bit-grid programming language.  Each program row is
+  compiled to click toggles over live engine cells, then executed with the run
+  button.
+- Levels 6 and 7 require checkpoint reasoning: a first program ends on a
+  pressure pad to update the reset position, and a second program reaches the
+  target.
+- Like the other runners, this is source-assisted and not yet a black-box
+  ARC-AGI-3 agent.
+
+## LF52
+
+Command:
+
+```bash
+python v29_lf52_peg_solver.py --target-level 7
+```
+
+Environment:
+
+```text
+game: lf52
+environment id: lf52-271a04aa
+available levels: 10
+requested target: 7
+effective target: 7
+```
+
+Final scorecard:
+
+```text
+score: 38.18181818181818
+levels_completed: 6 / 10
+completed: false
+state: NOT_FINISHED
+total_actions: 305
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 8 | 32 | 100.0 |
+| 2 | 34 | 81 | 100.0 |
+| 3 | 45 | 60 | 100.0 |
+| 4 | 50 | 71 | 100.0 |
+| 5 | 83 | 205 | 100.0 |
+| 6 | 85 | 148 | 100.0 |
+| 7 | 0 | 244 | 0.0 |
+| 8 | 0 | 109 | 0.0 |
+| 9 | 0 | 164 | 0.0 |
+| 10 | 0 | 225 | 0.0 |
+
+Notes:
+
+- LF52 is a peg-solitaire/conveyor puzzle.  Pieces jump two cells by click,
+  while arrow actions move active landing cells along rail cells and carry
+  pieces or bridge markers that are stacked on them.
+- The current solver uses a multiset cell model so active cells, bridge
+  markers, and pieces can occupy the same coordinate, matching the live engine.
+- Levels 1-6 are live-verified from a fresh run.  Level 7 is open: it requires
+  long-horizon sequence planning beyond the local jump/conveyor search used so
+  far.

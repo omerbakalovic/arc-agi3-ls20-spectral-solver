@@ -167,13 +167,41 @@ level_actions: [8, 12, 17, 12, 18, 11, 6, 9, 8]
 level_baseline_actions: [22, 42, 26, 115, 36, 31, 8, 40, 41]
 ```
 
+On the public `tn36` environment version `ef4dde99`, the TN36 program-grid
+solver completes all seven levels:
+
+```text
+environment: tn36-ef4dde99
+score: 100.0
+levels_completed: 7 / 7
+state: WIN
+total_actions: 92
+level_actions: [7, 9, 9, 13, 16, 21, 17]
+level_baseline_actions: [32, 72, 26, 40, 30, 55, 62]
+```
+
+On the public `lf52` environment version `271a04aa`, the LF52 peg/conveyor
+solver currently completes the first six of ten levels:
+
+```text
+environment: lf52-271a04aa
+score: 38.18181818181818
+levels_completed: 6 / 10
+state: NOT_FINISHED
+total_actions: 305
+level_actions: [8, 34, 45, 50, 83, 85, 0, 0, 0, 0]
+level_baseline_actions: [32, 81, 60, 71, 205, 148, 244, 109, 164, 225]
+```
+
 The latest local reproduction summary is documented in
 [`docs/RESULTS.md`](docs/RESULTS.md).
 
 ## What This Is
 
 - Reproducible 100.0-score solvers for public LS20, TR87, WA30, FT09, VC33,
-  G50T, RE86, CD82, R11L, LP85, SB26, and SU15 environments.
+  G50T, RE86, CD82, R11L, LP85, SB26, SU15, and TN36 environments.
+- A partial LF52 peg/conveyor solver that verifies the first six levels and
+  exposes level 7 as the next long-horizon planning target.
 - A compact demonstration that symbolic/state-space modeling can solve
   interactive ARC-AGI-3 games without an LLM policy.
 - A research artifact for spectral, graph, potential-field, and algebraic
@@ -229,6 +257,11 @@ Important files:
 - `v27_su15_particle_solver.py`: SU15 click/merge solver over numbered block
   merges, particle-hazard routing, decrement timing, and synchronized final
   placement.
+- `v28_tn36_program_solver.py`: TN36 click solver that compiles target
+  machine states into bit-grid opcodes and checkpoint program sequences.
+- `v29_lf52_peg_solver.py`: LF52 peg/conveyor solver over two-click jumps,
+  movable active landing cells, and stacked cell-state reasoning through level
+  6.
 - `exotic/`: earlier math-first modules for perception, TDA, potential fields,
   group-state reasoning, temporal diffs, and state-machine experiments.
 - `diag_model_divergence.py`: compares the planner model against live runtime
@@ -258,6 +291,8 @@ python v24_r11l_centroid_solver.py --target-level 6
 python v25_lp85_permutation_solver.py --target-level 8
 python v26_sb26_tape_solver.py --target-level 8
 python v27_su15_particle_solver.py --target-level 9
+python v28_tn36_program_solver.py --target-level 7
+python v29_lf52_peg_solver.py --target-level 7
 ```
 
 The public LS20 source currently contains 7 levels. Passing `--target-level 8`
@@ -279,6 +314,8 @@ v24_r11l_output/target_L6/
 v25_lp85_output/target_L8/
 v26_sb26_output/target_L8/
 v27_su15_output/target_L9/
+v28_tn36_output/target_L7/
+v29_lf52_output/target_L7/
 ```
 
 These generated files are ignored by git.
@@ -288,9 +325,10 @@ These generated files are ignored by git.
 The honest claim is:
 
 > Source-assisted symbolic/spectral planners solve public ARC-AGI-3 LS20,
-> TR87, WA30, FT09, VC33, G50T, RE86, CD82, R11L, LP85, SB26, and SU15 environments
-> with 100.0 scores, and provide a concrete research path toward black-box
-> interactive world-modeling agents.
+> TR87, WA30, FT09, VC33, G50T, RE86, CD82, R11L, LP85, SB26, SU15, and TN36
+> environments with 100.0 scores, and provide a concrete research path toward black-box
+> interactive world-modeling agents. LF52 is partially solved through level 6
+> and is being used as the next long-horizon planning benchmark.
 
 The claim to avoid is:
 
