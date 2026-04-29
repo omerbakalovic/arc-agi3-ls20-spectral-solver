@@ -880,3 +880,64 @@ Notes:
 - Levels 1-6 are live-verified from a fresh run.  Level 7 is open: it requires
   long-horizon sequence planning beyond the local jump/conveyor search used so
   far.
+
+## CN04
+
+Command:
+
+```bash
+python v30_cn04_alignment_solver.py --target-level 6
+```
+
+Environment:
+
+```text
+game: cn04
+environment id: cn04-2fe56bfb
+available levels: 6
+requested target: 6
+effective target: 6
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 6 / 6
+completed: true
+state: WIN
+total_actions: 262
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 13 | 29 | 100.0 |
+| 2 | 39 | 54 | 100.0 |
+| 3 | 31 | 85 | 100.0 |
+| 4 | 52 | 300 | 100.0 |
+| 5 | 65 | 208 | 100.0 |
+| 6 | 62 | 113 | 100.0 |
+
+Target sprite placements:
+
+```text
+L1: 0@(13,3,r90), 1@(12,8,r90)
+L2: 0@(2,6,r0), 1@(6,7,r0), 2@(1,4,r0), 3@(10,9,r0)
+L3: 0@(11,4,r0), 1@(6,9,r0), 2@(5,3,r0)
+L4: 0@(7,6,r180), 1@(7,6,r0), 2@(9,6,r90), 3@(6,6,r180)
+L5: 5@(0,11,r270), 6@(2,10,r0), 7@(4,14,r0), 4@(0,10,r0)
+L6: 6@(8,8,r90), 11@(15,8,r90), 12@(8,13,r90), 0@(10,10,r90), 7@(9,15,r90)
+```
+
+Notes:
+
+- CN04 is solved as a special-pixel pairing problem: every visible 8/13 pixel
+  must overlap exactly one same-valued 8/13 pixel from another visible sprite.
+- Rotations are read through the engine's `Sprite.render()` behavior instead
+  of being reimplemented by hand; this avoids a subtle 8/13 orientation bug.
+- Levels 5 and 6 use stacked sprite variants.  ACTION5 hides the previous
+  variant and selects the next, so the solver treats each stack as a variant
+  choice rather than as simultaneous visible objects.

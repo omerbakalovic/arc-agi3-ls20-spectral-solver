@@ -180,6 +180,19 @@ level_actions: [7, 9, 9, 13, 16, 21, 17]
 level_baseline_actions: [32, 72, 26, 40, 30, 55, 62]
 ```
 
+On the public `cn04` environment version `2fe56bfb`, the CN04 sprite-alignment
+solver completes all six levels:
+
+```text
+environment: cn04-2fe56bfb
+score: 100.0
+levels_completed: 6 / 6
+state: WIN
+total_actions: 262
+level_actions: [13, 39, 31, 52, 65, 62]
+level_baseline_actions: [29, 54, 85, 300, 208, 113]
+```
+
 On the public `lf52` environment version `271a04aa`, the LF52 peg/conveyor
 solver currently completes the first six of ten levels:
 
@@ -199,7 +212,7 @@ The latest local reproduction summary is documented in
 ## What This Is
 
 - Reproducible 100.0-score solvers for public LS20, TR87, WA30, FT09, VC33,
-  G50T, RE86, CD82, R11L, LP85, SB26, SU15, and TN36 environments.
+  G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, and CN04 environments.
 - A partial LF52 peg/conveyor solver that verifies the first six levels and
   exposes level 7 as the next long-horizon planning target.
 - A compact demonstration that symbolic/state-space modeling can solve
@@ -262,6 +275,8 @@ Important files:
 - `v29_lf52_peg_solver.py`: LF52 peg/conveyor solver over two-click jumps,
   movable active landing cells, and stacked cell-state reasoning through level
   6.
+- `v30_cn04_alignment_solver.py`: CN04 sprite-alignment solver over special
+  pixel pairing, engine-rendered rotations, and stacked sprite variants.
 - `exotic/`: earlier math-first modules for perception, TDA, potential fields,
   group-state reasoning, temporal diffs, and state-machine experiments.
 - `diag_model_divergence.py`: compares the planner model against live runtime
@@ -293,6 +308,7 @@ python v26_sb26_tape_solver.py --target-level 8
 python v27_su15_particle_solver.py --target-level 9
 python v28_tn36_program_solver.py --target-level 7
 python v29_lf52_peg_solver.py --target-level 7
+python v30_cn04_alignment_solver.py --target-level 6
 ```
 
 The public LS20 source currently contains 7 levels. Passing `--target-level 8`
@@ -316,6 +332,7 @@ v26_sb26_output/target_L8/
 v27_su15_output/target_L9/
 v28_tn36_output/target_L7/
 v29_lf52_output/target_L7/
+v30_cn04_output/target_L6/
 ```
 
 These generated files are ignored by git.
@@ -325,7 +342,7 @@ These generated files are ignored by git.
 The honest claim is:
 
 > Source-assisted symbolic/spectral planners solve public ARC-AGI-3 LS20,
-> TR87, WA30, FT09, VC33, G50T, RE86, CD82, R11L, LP85, SB26, SU15, and TN36
+> TR87, WA30, FT09, VC33, G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, and CN04
 > environments with 100.0 scores, and provide a concrete research path toward black-box
 > interactive world-modeling agents. LF52 is partially solved through level 6
 > and is being used as the next long-horizon planning benchmark.
