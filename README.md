@@ -206,6 +206,19 @@ level_actions: [8, 34, 45, 50, 83, 85, 0, 0, 0, 0]
 level_baseline_actions: [32, 81, 60, 71, 205, 148, 244, 109, 164, 225]
 ```
 
+On the public `s5i5` environment version `18d95033`, the S5I5 kinematic-chain
+solver currently completes the first two of eight levels:
+
+```text
+environment: s5i5-18d95033
+score: 8.333333333333334
+levels_completed: 2 / 8
+state: NOT_FINISHED
+total_actions: 39
+level_actions: [13, 26, 0, 0, 0, 0, 0, 0]
+level_baseline_actions: [20, 89, 106, 54, 162, 38, 86, 83]
+```
+
 The latest local reproduction summary is documented in
 [`docs/RESULTS.md`](docs/RESULTS.md).
 
@@ -215,6 +228,8 @@ The latest local reproduction summary is documented in
   G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, and CN04 environments.
 - A partial LF52 peg/conveyor solver that verifies the first six levels and
   exposes level 7 as the next long-horizon planning target.
+- A partial S5I5 kinematic-chain solver that verifies the first two click-only
+  linkage levels and exposes level 3 as the next rotation/search target.
 - A compact demonstration that symbolic/state-space modeling can solve
   interactive ARC-AGI-3 games without an LLM policy.
 - A research artifact for spectral, graph, potential-field, and algebraic
@@ -277,6 +292,8 @@ Important files:
   6.
 - `v30_cn04_alignment_solver.py`: CN04 sprite-alignment solver over special
   pixel pairing, engine-rendered rotations, and stacked sprite variants.
+- `v31_s5i5_kinematic_solver.py`: S5I5 partial kinematic-chain solver over
+  colored resize bars and target-anchor placement through level 2.
 - `exotic/`: earlier math-first modules for perception, TDA, potential fields,
   group-state reasoning, temporal diffs, and state-machine experiments.
 - `diag_model_divergence.py`: compares the planner model against live runtime
@@ -309,6 +326,7 @@ python v27_su15_particle_solver.py --target-level 9
 python v28_tn36_program_solver.py --target-level 7
 python v29_lf52_peg_solver.py --target-level 7
 python v30_cn04_alignment_solver.py --target-level 6
+python v31_s5i5_kinematic_solver.py --target-level 2
 ```
 
 The public LS20 source currently contains 7 levels. Passing `--target-level 8`
@@ -333,6 +351,7 @@ v27_su15_output/target_L9/
 v28_tn36_output/target_L7/
 v29_lf52_output/target_L7/
 v30_cn04_output/target_L6/
+v31_s5i5_output/target_L2/
 ```
 
 These generated files are ignored by git.
@@ -345,7 +364,8 @@ The honest claim is:
 > TR87, WA30, FT09, VC33, G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, and CN04
 > environments with 100.0 scores, and provide a concrete research path toward black-box
 > interactive world-modeling agents. LF52 is partially solved through level 6
-> and is being used as the next long-horizon planning benchmark.
+> and S5I5 is partially solved through level 2; both are being used as
+> follow-up planning benchmarks.
 
 The claim to avoid is:
 

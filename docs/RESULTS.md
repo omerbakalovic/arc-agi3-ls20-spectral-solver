@@ -941,3 +941,62 @@ Notes:
 - Levels 5 and 6 use stacked sprite variants.  ACTION5 hides the previous
   variant and selects the next, so the solver treats each stack as a variant
   choice rather than as simultaneous visible objects.
+
+## S5I5
+
+Command:
+
+```bash
+python v31_s5i5_kinematic_solver.py --target-level 2
+```
+
+Environment:
+
+```text
+game: s5i5
+environment id: s5i5-18d95033
+available levels: 8
+requested target: 2
+effective target: 2
+```
+
+Final scorecard:
+
+```text
+score: 8.333333333333334
+levels_completed: 2 / 8
+completed: false
+state: NOT_FINISHED
+total_actions: 39
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 13 | 20 | 100.0 |
+| 2 | 26 | 89 | 100.0 |
+| 3 | 0 | 106 | 0.0 |
+| 4 | 0 | 54 | 0.0 |
+| 5 | 0 | 162 | 0.0 |
+| 6 | 0 | 38 | 0.0 |
+| 7 | 0 | 86 | 0.0 |
+| 8 | 0 | 83 | 0.0 |
+
+Click plans:
+
+```text
+L1: (47,21)x7, (24,46)x6
+L2: (29,57)x3, (14,57)x8, (29,57)x5, (44,57)x4, (59,57)x6
+```
+
+Notes:
+
+- S5I5 is a click-only kinematic-chain puzzle.  Colored bars resize matching
+  chain segments; later levels add rotation buttons.
+- Level 1 is a direct two-bar resize problem.  Level 2 was found by
+  engine-backed BFS over bar clicks while preserving rollback/collision
+  behavior.
+- Level 3 is the next target: it introduces multiple anchors plus rotation
+  controls, so the search needs stronger pruning than the level-2 BFS.
