@@ -947,7 +947,7 @@ Notes:
 Command:
 
 ```bash
-python v31_s5i5_kinematic_solver.py --target-level 2
+python v31_s5i5_kinematic_solver.py --target-level 6
 ```
 
 Environment:
@@ -956,18 +956,18 @@ Environment:
 game: s5i5
 environment id: s5i5-18d95033
 available levels: 8
-requested target: 2
-effective target: 2
+requested target: 6
+effective target: 6
 ```
 
 Final scorecard:
 
 ```text
-score: 8.333333333333334
-levels_completed: 2 / 8
+score: 58.333333333333336
+levels_completed: 6 / 8
 completed: false
 state: NOT_FINISHED
-total_actions: 39
+total_actions: 161
 resets: 0
 ```
 
@@ -977,10 +977,10 @@ Per-level actions:
 |---:|---:|---:|---:|
 | 1 | 13 | 20 | 100.0 |
 | 2 | 26 | 89 | 100.0 |
-| 3 | 0 | 106 | 0.0 |
-| 4 | 0 | 54 | 0.0 |
-| 5 | 0 | 162 | 0.0 |
-| 6 | 0 | 38 | 0.0 |
+| 3 | 37 | 106 | 100.0 |
+| 4 | 30 | 54 | 100.0 |
+| 5 | 28 | 162 | 100.0 |
+| 6 | 27 | 38 | 100.0 |
 | 7 | 0 | 86 | 0.0 |
 | 8 | 0 | 83 | 0.0 |
 
@@ -989,6 +989,16 @@ Click plans:
 ```text
 L1: (47,21)x7, (24,46)x6
 L2: (29,57)x3, (14,57)x8, (29,57)x5, (44,57)x4, (59,57)x6
+L3: (37,57), (37,48)x3, (8,48), (18,57)x3, (46,48)x2,
+    (8,48)x4, (37,48)x8, (56,57)x4, (37,48), (46,48)x3,
+    (37,57)x7
+L4: (36,54)x3, (4,57)x7, (36,54)x4,
+    [(59,48), (14,48), (59,57), (36,54)]x4
+L5: (28,57)x3, (43,57), (5,57), (50,57)x2, (43,57)x3,
+    (5,57), (58,57), (5,57), (58,57), (35,57)x3,
+    (28,57)x3, (5,57)x2, (28,57)x3, (43,57)x3
+L6: (7,57), (31,48)x2, (50,48), (55,57)x6, (36,57)x3,
+    (12,48)x2, (17,57)x12
 ```
 
 Notes:
@@ -998,5 +1008,10 @@ Notes:
 - Level 1 is a direct two-bar resize problem.  Level 2 was found by
   engine-backed BFS over bar clicks while preserving rollback/collision
   behavior.
-- Level 3 is the next target: it introduces multiple anchors plus rotation
-  controls, so the search needs stronger pruning than the level-2 BFS.
+- Levels 3-6 were found by weighted A* over engine-validated linkage states.
+  The search uses anchor distance as its main heuristic while preserving the
+  runtime's rollback/collision behavior.
+- Level 6 is the first solved rotation-button level.  Level 7 is open: direct
+  extension reaches a wall bottleneck at `x=42`, and the current best search
+  state routes through the lower passage but has not yet re-entered the target
+  corridor.
