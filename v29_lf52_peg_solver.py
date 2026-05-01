@@ -9,8 +9,9 @@ that sits on that active cell.
 The plans below were generated with a multiset cell model: unlike the first
 prototype, it allows pieces, bridge markers, and active cells to stack on the
 same coordinate, which is required by the live engine.  The solver is verified
-end-to-end for levels 1-6.  Level 7 is intentionally left open; it needs a
-longer sequence-planning layer rather than another local reactive jump.
+end-to-end for levels 1-7.  Level 7 is the first long-horizon plan: it ferries
+one regular piece across three rail components, uses the red piece as a
+temporary bridge, then clears the final landing cell before the winning jump.
 """
 from __future__ import annotations
 
@@ -30,6 +31,10 @@ Cell = Tuple[int, int]
 Move = Tuple[str, str]
 Jump = Tuple[str, Cell, Cell]
 MacroAction = Union[Move, Jump]
+
+
+def move_seq(sequence: str) -> List[Move]:
+    return [("M", direction) for direction in sequence]
 
 
 PLANS: Dict[int, List[MacroAction]] = {
@@ -267,6 +272,42 @@ PLANS: Dict[int, List[MacroAction]] = {
         ("J", (22, 6), (20, 6)),
         ("J", (20, 6), (20, 8)),
     ],
+    7: [
+        *move_seq("LLUULLL"),
+        ("J", (0, 1), (0, 3)),
+        *move_seq("RRRDDRRRD"),
+        ("J", (6, 6), (6, 8)),
+        *move_seq("ULLLUURRR"),
+        ("J", (6, 1), (6, 3)),
+        *move_seq("LLLDDLLD"),
+        ("J", (1, 6), (1, 8)),
+        ("J", (1, 8), (3, 8)),
+        ("J", (3, 8), (5, 8)),
+        ("J", (5, 8), (7, 8)),
+        ("J", (6, 8), (8, 8)),
+        ("J", (7, 8), (9, 8)),
+        *move_seq("DLDDRRD"),
+        ("J", (8, 8), (10, 8)),
+        ("J", (9, 8), (11, 8)),
+        *move_seq("ULLUURUURRR"),
+        ("J", (12, 3), (14, 3)),
+        *move_seq("LLLDDRRD"),
+        ("J", (11, 8), (11, 6)),
+        *move_seq("ULLUURRUURRRD"),
+        ("J", (14, 2), (14, 4)),
+        ("J", (14, 3), (14, 5)),
+        ("J", (14, 4), (14, 6)),
+        ("J", (14, 5), (16, 5)),
+        ("J", (14, 6), (16, 6)),
+        ("J", (16, 5), (18, 5)),
+        ("J", (16, 6), (18, 6)),
+        *move_seq("LLDLDRDRD"),
+        ("J", (18, 5), (18, 3)),
+        *move_seq("URRRRD"),
+        ("J", (22, 3), (22, 5)),
+        *move_seq("ULULLDRDD"),
+        ("J", (22, 6), (22, 4)),
+    ],
 }
 
 
@@ -348,7 +389,7 @@ def execute_level(env, game_action, level: int, plan: Sequence[MacroAction], wri
     return LevelRun(level, False, len(plan), actions, None, "plan ended before completion")
 
 
-def run(target_level: int = 6) -> Dict[str, object]:
+def run(target_level: int = 7) -> Dict[str, object]:
     output_dir = OUTPUT_DIR / f"target_L{target_level}"
     write, flush = log_sink(output_dir)
     runs: List[LevelRun] = []
@@ -381,7 +422,7 @@ def run(target_level: int = 6) -> Dict[str, object]:
         success = levels_solved >= effective_target
         write("\nFINAL: " + ("SUCCESS" if success else "PARTIAL"))
         if target_level > max(PLANS):
-            write("Open problem: Level 7 needs long-horizon sequence planning.")
+            write("Open problem: next LF52 level needs another generated macro-plan.")
         scorecard, scorecard_error = score_utils.write_scorecard_snapshot(
             arc, write, "Final score", full=True
         )
@@ -402,7 +443,7 @@ def run(target_level: int = 6) -> Dict[str, object]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="LF52 partial peg/conveyor solver")
-    parser.add_argument("--target-level", type=int, default=6)
+    parser.add_argument("--target-level", type=int, default=7)
     args = parser.parse_args()
     run(args.target_level)
 

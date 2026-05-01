@@ -194,15 +194,15 @@ level_baseline_actions: [29, 54, 85, 300, 208, 113]
 ```
 
 On the public `lf52` environment version `271a04aa`, the LF52 peg/conveyor
-solver currently completes the first six of ten levels:
+solver currently completes the first seven of ten levels:
 
 ```text
 environment: lf52-271a04aa
-score: 38.18181818181818
-levels_completed: 6 / 10
+score: 50.90909090909091
+levels_completed: 7 / 10
 state: NOT_FINISHED
-total_actions: 305
-level_actions: [8, 34, 45, 50, 83, 85, 0, 0, 0, 0]
+total_actions: 447
+level_actions: [8, 34, 45, 50, 83, 85, 142, 0, 0, 0]
 level_baseline_actions: [32, 81, 60, 71, 205, 148, 244, 109, 164, 225]
 ```
 
@@ -226,8 +226,8 @@ The latest local reproduction summary is documented in
 
 - Reproducible 100.0-score solvers for public LS20, TR87, WA30, FT09, VC33,
   G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, CN04, and S5I5 environments.
-- A partial LF52 peg/conveyor solver that verifies the first six levels and
-  exposes level 7 as the next long-horizon planning target.
+- A partial LF52 peg/conveyor solver that verifies the first seven levels,
+  including a long-horizon level-7 ferry/bridge plan across disconnected rails.
 - A compact demonstration that symbolic/state-space modeling can solve
   interactive ARC-AGI-3 games without an LLM policy.
 - A research artifact for spectral, graph, potential-field, and algebraic
@@ -287,7 +287,7 @@ Important files:
   machine states into bit-grid opcodes and checkpoint program sequences.
 - `v29_lf52_peg_solver.py`: LF52 peg/conveyor solver over two-click jumps,
   movable active landing cells, and stacked cell-state reasoning through level
-  6.
+  7.
 - `v30_cn04_alignment_solver.py`: CN04 sprite-alignment solver over special
   pixel pairing, engine-rendered rotations, and stacked sprite variants.
 - `v31_s5i5_kinematic_solver.py`: S5I5 kinematic-chain solver over
@@ -363,7 +363,7 @@ The honest claim is:
 > TR87, WA30, FT09, VC33, G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, CN04,
 > and S5I5 environments with 100.0 scores, and provide a concrete research path
 > toward black-box interactive world-modeling agents. LF52 is partially solved
-> through level 6 and is being used as a follow-up planning benchmark.
+> through level 7 and is being used as a follow-up planning benchmark.
 
 The claim to avoid is:
 
