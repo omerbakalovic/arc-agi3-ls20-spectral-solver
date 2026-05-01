@@ -1,6 +1,6 @@
 # Reproduction Results
 
-Date: 2026-04-29
+Date: 2026-05-01
 
 ## LS20
 
@@ -831,7 +831,7 @@ Notes:
 Command:
 
 ```bash
-python v29_lf52_peg_solver.py --target-level 7
+python v29_lf52_peg_solver.py --target-level 10
 ```
 
 Environment:
@@ -840,18 +840,18 @@ Environment:
 game: lf52
 environment id: lf52-271a04aa
 available levels: 10
-requested target: 7
-effective target: 7
+requested target: 10
+effective target: 10
 ```
 
 Final scorecard:
 
 ```text
-score: 38.18181818181818
-levels_completed: 6 / 10
-completed: false
-state: NOT_FINISHED
-total_actions: 305
+score: 100.0
+levels_completed: 10 / 10
+completed: true
+state: WIN
+total_actions: 662
 resets: 0
 ```
 
@@ -865,10 +865,10 @@ Per-level actions:
 | 4 | 50 | 71 | 100.0 |
 | 5 | 83 | 205 | 100.0 |
 | 6 | 85 | 148 | 100.0 |
-| 7 | 0 | 244 | 0.0 |
-| 8 | 0 | 109 | 0.0 |
-| 9 | 0 | 164 | 0.0 |
-| 10 | 0 | 225 | 0.0 |
+| 7 | 142 | 244 | 100.0 |
+| 8 | 68 | 109 | 100.0 |
+| 9 | 100 | 164 | 100.0 |
+| 10 | 47 | 225 | 100.0 |
 
 Notes:
 
@@ -877,9 +877,9 @@ Notes:
   pieces or bridge markers that are stacked on them.
 - The current solver uses a multiset cell model so active cells, bridge
   markers, and pieces can occupy the same coordinate, matching the live engine.
-- Levels 1-6 are live-verified from a fresh run.  Level 7 is open: it requires
-  long-horizon sequence planning beyond the local jump/conveyor search used so
-  far.
+- Levels 1-10 are live-verified from a fresh run.  Level 7 is the first
+  long-horizon ferry/bridge plan; levels 8-10 reuse the same multiset cell
+  model for blue bridges and final rail handoffs.
 
 ## CN04
 
@@ -1025,3 +1025,64 @@ Notes:
   rotate the color-8 blocker upward twice, restore color-10, then route the main
   chain through the lower corridor.  Level 8 then solves with the same weighted
   A* transition model.
+
+## SC25
+
+Command:
+
+```bash
+python v32_sc25_spell_solver.py --target-level 6
+```
+
+Environment:
+
+```text
+game: sc25
+environment id: sc25-635fd71a
+available levels: 6
+requested target: 6
+effective target: 6
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 6 / 6
+completed: true
+state: WIN
+total_actions: 125
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 13 | 36 | 100.0 |
+| 2 | 5 | 6 | 100.0 |
+| 3 | 12 | 32 | 100.0 |
+| 4 | 21 | 83 | 100.0 |
+| 5 | 37 | 143 | 100.0 |
+| 6 | 37 | 50 | 100.0 |
+
+Macro plans:
+
+```text
+L1: U L L L L RESIZE L L L L
+L2: TELE U U
+L3: R FIRE L L L D D D D L
+L4: D D R R RESIZE D R L FIRE D D D R R R R
+L5: U RESIZE TELE L L L L L L U FIRE RESIZE D D L FIRE TELE U U U U U U
+L6: RESIZE TELE R R U U RESIZE FIRE TELE L L L FIRE TELE U R U U U U U
+```
+
+Notes:
+
+- SC25 is a keyboard/click spell-pattern puzzle.  The solver treats the 3x3
+  click board as a tiny program language: `RESIZE`, `TELE`, and `FIRE` expand
+  into legal click sequences.
+- Levels 4-6 were found with engine-backed macro search over movement,
+  spell casts, player scale, projectile removals, and teleport target indices.
+- The final run solves all six levels in 125 actions versus the public
+  baseline total of 350.
