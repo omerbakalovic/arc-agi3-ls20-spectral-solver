@@ -9,9 +9,10 @@ that sits on that active cell.
 The plans below were generated with a multiset cell model: unlike the first
 prototype, it allows pieces, bridge markers, and active cells to stack on the
 same coordinate, which is required by the live engine.  The solver is verified
-end-to-end for levels 1-7.  Level 7 is the first long-horizon plan: it ferries
+end-to-end for levels 1-8.  Level 7 is the first long-horizon plan: it ferries
 one regular piece across three rail components, uses the red piece as a
 temporary bridge, then clears the final landing cell before the winning jump.
+Level 8 extends the same state model with blue bridge pieces.
 """
 from __future__ import annotations
 
@@ -308,6 +309,33 @@ PLANS: Dict[int, List[MacroAction]] = {
         *move_seq("ULULLDRDD"),
         ("J", (22, 6), (22, 4)),
     ],
+    8: [
+        ("J", (1, 3), (3, 3)),
+        ("J", (4, 7), (4, 5)),
+        ("J", (4, 6), (4, 4)),
+        ("J", (4, 5), (4, 3)),
+        ("J", (3, 3), (5, 3)),
+        ("J", (5, 3), (7, 3)),
+        ("J", (7, 3), (7, 5)),
+        *move_seq("LLUUUUR"),
+        ("J", (4, 3), (4, 5)),
+        ("J", (7, 5), (5, 5)),
+        ("J", (5, 5), (3, 5)),
+        ("J", (3, 5), (1, 5)),
+        *move_seq("LDDLDDRRRDLL"),
+        ("J", (8, 11), (6, 11)),
+        ("J", (7, 11), (5, 11)),
+        ("J", (6, 11), (4, 11)),
+        ("J", (5, 11), (3, 11)),
+        ("J", (3, 10), (3, 12)),
+        *move_seq("RRRR"),
+        ("J", (3, 11), (5, 11)),
+        ("J", (4, 11), (6, 11)),
+        ("J", (5, 11), (7, 11)),
+        ("J", (7, 12), (7, 10)),
+        *move_seq("URU"),
+        ("J", (8, 8), (8, 6)),
+    ],
 }
 
 
@@ -389,7 +417,7 @@ def execute_level(env, game_action, level: int, plan: Sequence[MacroAction], wri
     return LevelRun(level, False, len(plan), actions, None, "plan ended before completion")
 
 
-def run(target_level: int = 7) -> Dict[str, object]:
+def run(target_level: int = 8) -> Dict[str, object]:
     output_dir = OUTPUT_DIR / f"target_L{target_level}"
     write, flush = log_sink(output_dir)
     runs: List[LevelRun] = []
@@ -443,7 +471,7 @@ def run(target_level: int = 7) -> Dict[str, object]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="LF52 partial peg/conveyor solver")
-    parser.add_argument("--target-level", type=int, default=7)
+    parser.add_argument("--target-level", type=int, default=8)
     args = parser.parse_args()
     run(args.target_level)
 
