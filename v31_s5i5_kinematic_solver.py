@@ -6,9 +6,9 @@ anchors; bottom control bars resize all pieces of matching color, and later
 levels add rotation buttons.  A level is solved when every visible target
 marker overlaps a target anchor.
 
-This checkpoint contains live-verified plans for the first six public levels.
+This checkpoint contains live-verified plans for all eight public levels.
 Level 2 was found with an engine-backed BFS over bar-control clicks.  Levels 3
-through 6 use the same engine-validated transition model with weighted A*
+through 8 use the same engine-validated transition model with weighted A*
 pruning over anchor distance and collision-free linkage states.
 """
 from __future__ import annotations
@@ -77,6 +77,41 @@ PLANS: Dict[int, List[Click]] = {
         + [(36, 57)] * 3
         + [(12, 48)] * 2
         + [(17, 57)] * 12
+    ),
+    7: (
+        [(53, 51)] * 2
+        + [(60, 58)] * 2
+        + [(61, 51)] * 2
+        + [(25, 51)]
+        + [(17, 51)] * 2
+        + [(11, 51)] * 6
+        + [(11, 58)] * 8
+        + [(11, 51)] * 2
+        + [(39, 51)]
+        + [(11, 58)] * 2
+        + [(39, 51)] * 2
+        + [(33, 51)] * 2
+        + [(11, 58)] * 2
+        + [(33, 51)] * 2
+        + [(33, 58)] * 6
+        + [(33, 51)] * 3
+    ),
+    8: (
+        [(60, 11), (46, 4), (46, 11), (21, 56), (7, 56)]
+        + [(49, 18)] * 2
+        + [(46, 11)] * 2
+        + [(7, 56)] * 2
+        + [(38, 11)] * 2
+        + [(49, 18), (46, 4)]
+        + [(21, 56)] * 2
+        + [(38, 4)]
+        + [(49, 18)] * 2
+        + [(60, 11), (38, 4), (60, 11)]
+        + [(21, 56)] * 2
+        + [(60, 11)] * 6
+        + [(38, 11), (60, 11)]
+        + [(7, 56)] * 2
+        + [(60, 11)] * 3
     ),
 }
 
@@ -167,7 +202,7 @@ def execute_level(env, game_action, clicks: Sequence[Click], write) -> LevelRun:
     )
 
 
-def run(target_level: int = 6) -> Dict[str, object]:
+def run(target_level: int = 8) -> Dict[str, object]:
     output_dir = OUTPUT_DIR / f"target_L{target_level}"
     write, flush = log_sink(output_dir)
     runs: List[LevelRun] = []
@@ -213,7 +248,7 @@ def run(target_level: int = 6) -> Dict[str, object]:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--target-level", type=int, default=6)
+    parser.add_argument("--target-level", type=int, default=8)
     args = parser.parse_args()
     run(args.target_level)
 

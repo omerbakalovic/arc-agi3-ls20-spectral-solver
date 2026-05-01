@@ -947,7 +947,7 @@ Notes:
 Command:
 
 ```bash
-python v31_s5i5_kinematic_solver.py --target-level 6
+python v31_s5i5_kinematic_solver.py --target-level 8
 ```
 
 Environment:
@@ -956,18 +956,18 @@ Environment:
 game: s5i5
 environment id: s5i5-18d95033
 available levels: 8
-requested target: 6
-effective target: 6
+requested target: 8
+effective target: 8
 ```
 
 Final scorecard:
 
 ```text
-score: 58.333333333333336
-levels_completed: 6 / 8
-completed: false
-state: NOT_FINISHED
-total_actions: 161
+score: 100.0
+levels_completed: 8 / 8
+completed: true
+state: WIN
+total_actions: 244
 resets: 0
 ```
 
@@ -981,8 +981,8 @@ Per-level actions:
 | 4 | 30 | 54 | 100.0 |
 | 5 | 28 | 162 | 100.0 |
 | 6 | 27 | 38 | 100.0 |
-| 7 | 0 | 86 | 0.0 |
-| 8 | 0 | 83 | 0.0 |
+| 7 | 45 | 86 | 100.0 |
+| 8 | 38 | 83 | 100.0 |
 
 Click plans:
 
@@ -999,6 +999,15 @@ L5: (28,57)x3, (43,57), (5,57), (50,57)x2, (43,57)x3,
     (28,57)x3, (5,57)x2, (28,57)x3, (43,57)x3
 L6: (7,57), (31,48)x2, (50,48), (55,57)x6, (36,57)x3,
     (12,48)x2, (17,57)x12
+L7: (53,51)x2, (60,58)x2, (61,51)x2, (25,51), (17,51)x2,
+    (11,51)x6, (11,58)x8, (11,51)x2, (39,51), (11,58)x2,
+    (39,51)x2, (33,51)x2, (11,58)x2, (33,51)x2, (33,58)x6,
+    (33,51)x3
+L8: (60,11), (46,4), (46,11), (21,56), (7,56), (49,18)x2,
+    (46,11)x2, (7,56)x2, (38,11)x2, (49,18), (46,4),
+    (21,56)x2, (38,4), (49,18)x2, (60,11), (38,4), (60,11),
+    (21,56)x2, (60,11)x6, (38,11), (60,11), (7,56)x2,
+    (60,11)x3
 ```
 
 Notes:
@@ -1008,10 +1017,11 @@ Notes:
 - Level 1 is a direct two-bar resize problem.  Level 2 was found by
   engine-backed BFS over bar clicks while preserving rollback/collision
   behavior.
-- Levels 3-6 were found by weighted A* over engine-validated linkage states.
+- Levels 3-8 were found by weighted A* over engine-validated linkage states.
   The search uses anchor distance as its main heuristic while preserving the
   runtime's rollback/collision behavior.
-- Level 6 is the first solved rotation-button level.  Level 7 is open: direct
-  extension reaches a wall bottleneck at `x=42`, and the current best search
-  state routes through the lower passage but has not yet re-entered the target
-  corridor.
+- Level 6 is the first solved rotation-button level.  Level 7 requires a
+  manual/semantic hint: temporarily shorten the already solved color-10 segment,
+  rotate the color-8 blocker upward twice, restore color-10, then route the main
+  chain through the lower corridor.  Level 8 then solves with the same weighted
+  A* transition model.
