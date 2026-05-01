@@ -194,15 +194,15 @@ level_baseline_actions: [29, 54, 85, 300, 208, 113]
 ```
 
 On the public `lf52` environment version `271a04aa`, the LF52 peg/conveyor
-solver currently completes the first nine of ten levels:
+solver completes all ten levels:
 
 ```text
 environment: lf52-271a04aa
-score: 81.81818181818181
-levels_completed: 9 / 10
-state: NOT_FINISHED
-total_actions: 615
-level_actions: [8, 34, 45, 50, 83, 85, 142, 68, 100, 0]
+score: 100.0
+levels_completed: 10 / 10
+state: WIN
+total_actions: 662
+level_actions: [8, 34, 45, 50, 83, 85, 142, 68, 100, 47]
 level_baseline_actions: [32, 81, 60, 71, 205, 148, 244, 109, 164, 225]
 ```
 
@@ -225,9 +225,10 @@ The latest local reproduction summary is documented in
 ## What This Is
 
 - Reproducible 100.0-score solvers for public LS20, TR87, WA30, FT09, VC33,
-  G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, CN04, and S5I5 environments.
-- A partial LF52 peg/conveyor solver that verifies the first nine levels,
-  including long-horizon ferry/bridge plans across disconnected rails.
+  G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, CN04, LF52, and S5I5
+  environments.
+- A complete LF52 peg/conveyor solver with long-horizon ferry/bridge plans
+  across disconnected rails.
 - A compact demonstration that symbolic/state-space modeling can solve
   interactive ARC-AGI-3 games without an LLM policy.
 - A research artifact for spectral, graph, potential-field, and algebraic
@@ -286,8 +287,8 @@ Important files:
 - `v28_tn36_program_solver.py`: TN36 click solver that compiles target
   machine states into bit-grid opcodes and checkpoint program sequences.
 - `v29_lf52_peg_solver.py`: LF52 peg/conveyor solver over two-click jumps,
-  movable active landing cells, and stacked cell-state reasoning through level
-  9.
+  movable active landing cells, and stacked cell-state reasoning through all
+  ten levels.
 - `v30_cn04_alignment_solver.py`: CN04 sprite-alignment solver over special
   pixel pairing, engine-rendered rotations, and stacked sprite variants.
 - `v31_s5i5_kinematic_solver.py`: S5I5 kinematic-chain solver over
@@ -323,7 +324,7 @@ python v25_lp85_permutation_solver.py --target-level 8
 python v26_sb26_tape_solver.py --target-level 8
 python v27_su15_particle_solver.py --target-level 9
 python v28_tn36_program_solver.py --target-level 7
-python v29_lf52_peg_solver.py --target-level 7
+python v29_lf52_peg_solver.py --target-level 10
 python v30_cn04_alignment_solver.py --target-level 6
 python v31_s5i5_kinematic_solver.py --target-level 8
 ```
@@ -348,7 +349,7 @@ v25_lp85_output/target_L8/
 v26_sb26_output/target_L8/
 v27_su15_output/target_L9/
 v28_tn36_output/target_L7/
-v29_lf52_output/target_L7/
+v29_lf52_output/target_L10/
 v30_cn04_output/target_L6/
 v31_s5i5_output/target_L8/
 ```
@@ -361,9 +362,8 @@ The honest claim is:
 
 > Source-assisted symbolic/spectral planners solve public ARC-AGI-3 LS20,
 > TR87, WA30, FT09, VC33, G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, CN04,
-> and S5I5 environments with 100.0 scores, and provide a concrete research path
-> toward black-box interactive world-modeling agents. LF52 is partially solved
-> through level 9 and is being used as a follow-up planning benchmark.
+> LF52, and S5I5 environments with 100.0 scores, and provide a concrete
+> research path toward black-box interactive world-modeling agents.
 
 The claim to avoid is:
 

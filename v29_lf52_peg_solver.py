@@ -9,11 +9,12 @@ that sits on that active cell.
 The plans below were generated with a multiset cell model: unlike the first
 prototype, it allows pieces, bridge markers, and active cells to stack on the
 same coordinate, which is required by the live engine.  The solver is verified
-end-to-end for levels 1-9.  Level 7 is the first long-horizon plan: it ferries
+end-to-end for all 10 levels.  Level 7 is the first long-horizon plan: it ferries
 one regular piece across three rail components, uses the red piece as a
 temporary bridge, then clears the final landing cell before the winning jump.
 Levels 8-9 extend the same state model with blue bridge pieces and repeated
-regular-piece captures.
+regular-piece captures.  Level 10 uses the same model to lower a regular piece
+from the top rail into the bottom field before the final capture.
 """
 from __future__ import annotations
 
@@ -388,6 +389,21 @@ PLANS: Dict[int, List[MacroAction]] = {
         ("J", (21, 3), (21, 5)),
         ("J", (20, 5), (22, 5)),
     ],
+    10: [
+        *move_seq("DRRULUUUUUUULLLL"),
+        ("J", (4, 0), (4, 2)),
+        *move_seq("RULL"),
+        ("J", (3, 1), (1, 1)),
+        ("J", (2, 1), (0, 1)),
+        *move_seq("DDDDDRR"),
+        ("J", (2, 6), (4, 6)),
+        ("J", (3, 6), (5, 6)),
+        ("J", (4, 6), (4, 8)),
+        ("J", (5, 5), (5, 7)),
+        ("J", (5, 6), (5, 8)),
+        ("J", (4, 8), (6, 8)),
+        ("J", (6, 9), (6, 7)),
+    ],
 }
 
 
@@ -462,14 +478,14 @@ def execute_level(env, game_action, level: int, plan: Sequence[MacroAction], wri
         if not result.frame:
             return LevelRun(level, False, len(plan), actions, None, "life lost")
 
-        if int(env._game.level_index) > before_index:
+        if int(getattr(result, "levels_completed", before_index)) >= level:
             write(f"*** LEVEL {level} SOLVED at macro {step_index} ({actions} actions) ***")
             return LevelRun(level, True, len(plan), actions, step_index)
 
     return LevelRun(level, False, len(plan), actions, None, "plan ended before completion")
 
 
-def run(target_level: int = 9) -> Dict[str, object]:
+def run(target_level: int = 10) -> Dict[str, object]:
     output_dir = OUTPUT_DIR / f"target_L{target_level}"
     write, flush = log_sink(output_dir)
     runs: List[LevelRun] = []
@@ -523,7 +539,7 @@ def run(target_level: int = 9) -> Dict[str, object]:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="LF52 partial peg/conveyor solver")
-    parser.add_argument("--target-level", type=int, default=9)
+    parser.add_argument("--target-level", type=int, default=10)
     args = parser.parse_args()
     run(args.target_level)
 
