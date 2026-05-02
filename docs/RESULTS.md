@@ -1,6 +1,6 @@
 # Reproduction Results
 
-Date: 2026-05-01
+Date: 2026-05-02
 
 ## LS20
 
@@ -1154,3 +1154,63 @@ Notes:
   object sprites after each completed engine action.
 - The final run solves all nine levels in 187 actions versus the public
   baseline total of 464.
+
+## SP80
+
+Command:
+
+```bash
+python v34_sp80_spill_solver.py --target-level 6
+```
+
+Environment:
+
+```text
+game: sp80
+environment id: sp80-589a99af
+available levels: 6
+requested target: 6
+effective target: 6
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 6 / 6
+completed: true
+state: WIN
+total_actions: 112
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 4 | 39 | 100.0 |
+| 2 | 7 | 58 | 100.0 |
+| 3 | 10 | 25 | 100.0 |
+| 4 | 35 | 148 | 100.0 |
+| 5 | 24 | 96 | 100.0 |
+| 6 | 32 | 152 | 100.0 |
+
+Barrier configurations:
+
+```text
+L1: (6,4)
+L2: (6,9), (8,11), (4,6)
+L3: (9,10), (3,8), (10,7), (0,5)
+L4: (7,9), (12,10), (12,6), (4,8), (10,15)
+L5: (4,11), (9,13), (5,7), (10,7)
+L6: (6,8), (7,13), (8,8), (9,10)
+```
+
+Notes:
+
+- SP80 is solved as a fluid-routing puzzle: movable barriers split vertical
+  fronts, 2x2 turners redirect flow, and seeded blocks introduce extra sources.
+- The final solver executes real click and keyboard actions, including the
+  engine's rotated input mapping on levels 2, 3, and 5.
+- The final run solves all six levels in 112 actions versus the public
+  baseline total of 518.
