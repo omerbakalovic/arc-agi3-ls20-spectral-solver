@@ -232,14 +232,27 @@ level_actions: [13, 5, 12, 21, 37, 37]
 level_baseline_actions: [36, 6, 32, 83, 143, 50]
 ```
 
+On the public `tu93` environment version `0768757b`, the TU93 arrow-swarm
+solver completes all nine levels:
+
+```text
+environment: tu93-0768757b
+score: 100.0
+levels_completed: 9 / 9
+state: WIN
+total_actions: 187
+level_actions: [18, 10, 19, 17, 29, 30, 14, 21, 29]
+level_baseline_actions: [19, 16, 34, 42, 123, 80, 14, 23, 111]
+```
+
 The latest local reproduction summary is documented in
 [`docs/RESULTS.md`](docs/RESULTS.md).
 
 ## What This Is
 
 - Reproducible 100.0-score solvers for public LS20, TR87, WA30, FT09, VC33,
-  G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, CN04, LF52, S5I5, and SC25
-  environments.
+  G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, CN04, LF52, S5I5, SC25, and
+  TU93 environments.
 - A complete LF52 peg/conveyor solver with long-horizon ferry/bridge plans
   across disconnected rails.
 - A compact demonstration that symbolic/state-space modeling can solve
@@ -310,6 +323,9 @@ Important files:
 - `v32_sc25_spell_solver.py`: SC25 spell-pattern solver over 3x3 click
   programs, resize/teleport/fire operators, and keyboard navigation through
   all six levels.
+- `v33_tu93_arrow_solver.py`: TU93 arrow-swarm solver over board motion,
+  follower arrows, delayed arrows, target fragments, and engine-backed A*
+  plans through all nine levels.
 - `exotic/`: earlier math-first modules for perception, TDA, potential fields,
   group-state reasoning, temporal diffs, and state-machine experiments.
 - `diag_model_divergence.py`: compares the planner model against live runtime
@@ -344,6 +360,7 @@ python v29_lf52_peg_solver.py --target-level 10
 python v30_cn04_alignment_solver.py --target-level 6
 python v31_s5i5_kinematic_solver.py --target-level 8
 python v32_sc25_spell_solver.py --target-level 6
+python v33_tu93_arrow_solver.py --target-level 9
 ```
 
 The public LS20 source currently contains 7 levels. Passing `--target-level 8`
@@ -370,6 +387,7 @@ v29_lf52_output/target_L10/
 v30_cn04_output/target_L6/
 v31_s5i5_output/target_L8/
 v32_sc25_output/target_L6/
+v33_tu93_output/target_L9/
 ```
 
 These generated files are ignored by git.
@@ -380,8 +398,8 @@ The honest claim is:
 
 > Source-assisted symbolic/spectral planners solve public ARC-AGI-3 LS20,
 > TR87, WA30, FT09, VC33, G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, CN04,
-> LF52, S5I5, and SC25 environments with 100.0 scores, and provide a concrete
-> research path toward black-box interactive world-modeling agents.
+> LF52, S5I5, SC25, and TU93 environments with 100.0 scores, and provide a
+> concrete research path toward black-box interactive world-modeling agents.
 
 The claim to avoid is:
 

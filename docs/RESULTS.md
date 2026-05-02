@@ -1086,3 +1086,71 @@ Notes:
   spell casts, player scale, projectile removals, and teleport target indices.
 - The final run solves all six levels in 125 actions versus the public
   baseline total of 350.
+
+## TU93
+
+Command:
+
+```bash
+python v33_tu93_arrow_solver.py --target-level 9
+```
+
+Environment:
+
+```text
+game: tu93
+environment id: tu93-0768757b
+available levels: 9
+requested target: 9
+effective target: 9
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 9 / 9
+completed: true
+state: WIN
+total_actions: 187
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 18 | 19 | 100.0 |
+| 2 | 10 | 16 | 100.0 |
+| 3 | 19 | 34 | 100.0 |
+| 4 | 17 | 42 | 100.0 |
+| 5 | 29 | 123 | 100.0 |
+| 6 | 30 | 80 | 100.0 |
+| 7 | 14 | 14 | 100.0 |
+| 8 | 21 | 23 | 100.0 |
+| 9 | 29 | 111 | 100.0 |
+
+Generated plans:
+
+```text
+L1: RDDRURDDLLDRRDRURD
+L2: URRDRRURRU
+L3: UURULLULLDRDLLLDRDR
+L4: RLRRRUURDULULULDL
+L5: LLLRLLLLLDDDUUDDRDDRRRUDUUDUL
+L6: LLDDRDDLDLUDLUDRURRUULLLDLUUUL
+L7: RRRDDRURUUURDD
+L8: RRUURRLLLDDRUURRUUULL
+L9: LLUURDDLUURUURRRDDRDLDLDDLLUR
+```
+
+Notes:
+
+- TU93 is a keyboard-only arrow-swarm puzzle.  The main arrow moves on board
+  cells; chaser, mover, and delayed arrow sprites are activated by relative
+  geometry and remove target fragments through collision.
+- The solver plans in the live engine state space.  Its A* key tracks sprite
+  positions, rotations, marked arrow state, target fragments, and remaining
+  object sprites after each completed engine action.
+- The final run solves all nine levels in 187 actions versus the public
+  baseline total of 464.
