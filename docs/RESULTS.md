@@ -1214,3 +1214,55 @@ Notes:
   engine's rotated input mapping on levels 2, 3, and 5.
 - The final run solves all six levels in 112 actions versus the public
   baseline total of 518.
+
+## M0R0
+
+Command:
+
+```bash
+python v35_m0r0_mirror_solver.py --target-level 6
+```
+
+Environment:
+
+```text
+game: m0r0
+environment id: m0r0-492f87ba
+available levels: 6
+requested target: 6
+effective target: 6
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 6 / 6
+completed: true
+state: WIN
+total_actions: 184
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 15 | 30 | 100.0 |
+| 2 | 23 | 111 | 100.0 |
+| 3 | 57 | 203 | 100.0 |
+| 4 | 11 | 26 | 100.0 |
+| 5 | 39 | 500 | 100.0 |
+| 6 | 39 | 237 | 100.0 |
+
+Notes:
+
+- M0R0 is solved as a mirror-control puzzle: the left token follows horizontal
+  input while the right token mirrors it; vertical moves are shared.
+- The solver uses movable `mosdlc` blockers as symmetry-breaking operators on
+  levels 3, 4, and 6, and treats colored key cells as gate-removal conditions
+  on levels 5 and 6.
+- Level 3 required graph-distance planning through the true maze topology; a
+  Manhattan heuristic gets trapped against the central wall.
+- The final run solves all six levels in 184 actions versus the public
+  baseline total of 1107.
