@@ -349,6 +349,144 @@ SB26 is one of the strongest examples that ARC-AGI-3 environments may hide inter
 
 ---
 
+## SP80 - Flow Fields and Boundary Routing
+
+### Core lesson
+
+SP80 teaches that an environment can be solved by treating motion as a field
+propagation problem rather than as actor navigation.
+
+### Current limitation
+
+The current solver uses source-assisted identification of barriers, turners,
+sources and cup targets.
+
+### Black-box direction
+
+A black-box version should infer:
+
+- which objects redirect flow
+- which cells are sources, sinks and fail boundaries
+- how barriers change the reachable fluid front
+- how input rotation changes the action frame
+
+### Reusable operator
+
+Flow-front simulation + barrier placement search.
+
+### Why it matters
+
+This is a useful bridge between graph search and potential-field reasoning:
+the plan is not a path for an actor, but a configuration that makes a field
+reach all goals.
+
+---
+
+## M0R0 - Mirrored Control and Symmetry Breaking
+
+### Core lesson
+
+M0R0 teaches coupled control. One token mirrors horizontal input while vertical
+motion is shared, so the main problem is not pathfinding alone but finding
+when to preserve or break symmetry.
+
+### Current limitation
+
+The current solver knows the paired-token dynamics, movable blockers, gates and
+keys from source-assisted analysis.
+
+### Black-box direction
+
+A black-box version should infer:
+
+- that the two tokens are linked by an input symmetry
+- which movable blockers can break that symmetry
+- which key cells remove which gates
+- when maze distance, not Manhattan distance, is the useful heuristic
+
+### Reusable operator
+
+Coupled-agent planning + symmetry-breaking object placement.
+
+### Why it matters
+
+Many interactive systems are controlled indirectly through coupled variables.
+M0R0 is a compact example where solving requires discovering and exploiting
+that coupling.
+
+---
+
+## AR25 - Reflection Groups and Covering Orbits
+
+### Core lesson
+
+AR25 teaches that a visual level can be solved as an algebraic group action.
+Each shape generates an orbit under active mirror axes:
+
+```text
+vertical mirror:   (x, y) -> (2V - x, y)
+horizontal mirror: (x, y) -> (x, 2H - y)
+```
+
+The goal is to cover every target cell with the union of direct and reflected
+shape cells.
+
+### Current limitation
+
+The current solver uses source-assisted access to shape masks, target cells and
+mirror tags. It does not yet infer mirror semantics purely from frame deltas.
+
+### Black-box direction
+
+A black-box version should infer:
+
+- which line objects are mirror axes
+- whether a shape reflects horizontally, vertically or through both axes
+- how mirror position changes generated target coverage
+- how to convert observed reflections into an abstract orbit model
+
+### Reusable operator
+
+Group-action orbit generation + target-cover search.
+
+### Why it matters
+
+This is one of the cleanest examples so far of the mathematical-signal idea:
+the level is not just a puzzle layout, it is a finite action of a reflection
+group over a grid. The solver wins by finding the smallest covering orbit
+configuration, then compiling it back into actions.
+
+---
+
+## BP35 - Active Probe: Platform Dynamics
+
+### Current observation
+
+BP35 appears to be a compact platformer with lateral control, gravity-driven
+falls, clickable/removable cells, toggle cells, hazards, gates and gravity
+switches.
+
+### Working hypothesis
+
+The right abstraction is not pixel search. It is a macro transition model:
+
+- move left/right until blocked or falling
+- click the cell under or near the actor to alter the next fall
+- track gravity orientation and camera-relative click visibility
+- plan over fall endpoints and destructible/toggle cell states
+
+### Reusable operator under construction
+
+Platformer physics abstraction + local edit planning.
+
+### Why it matters
+
+BP35 is a good next test because it forces the solver to combine continuous
+platform intuition with symbolic cell editing. It is less algebraic than AR25,
+but still compressible into a small operator model.
+
+---
+
 ## Emerging Operator Library
 
 Across the solved public environments, the following reusable operator families appear:
@@ -366,6 +504,10 @@ Across the solved public environments, the following reusable operator families 
 | Indirect centroid control | R11L |
 | Permutation systems | LP85 |
 | Tape/program interpretation | SB26 |
+| Flow-front routing | SP80 |
+| Coupled mirrored control | M0R0 |
+| Reflection-group covering | AR25 |
+| Platformer macro dynamics | BP35 (active probe) |
 
 ---
 

@@ -1266,3 +1266,56 @@ Notes:
   Manhattan heuristic gets trapped against the central wall.
 - The final run solves all six levels in 184 actions versus the public
   baseline total of 1107.
+
+## AR25
+
+Command:
+
+```bash
+python v36_ar25_reflection_solver.py --target-level 8
+```
+
+Environment:
+
+```text
+game: ar25
+environment id: ar25-0c556536
+available levels: 8
+requested target: 8
+effective target: 8
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 8 / 8
+completed: true
+state: WIN
+total_actions: 253
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 15 | 32 | 100.0 |
+| 2 | 11 | 50 | 100.0 |
+| 3 | 40 | 75 | 100.0 |
+| 4 | 22 | 37 | 100.0 |
+| 5 | 28 | 89 | 100.0 |
+| 6 | 53 | 159 | 100.0 |
+| 7 | 37 | 233 | 100.0 |
+| 8 | 47 | 73 | 100.0 |
+
+Notes:
+
+- AR25 is solved as a reflection-group covering puzzle.  Movable shapes create
+  orbits under vertical mirrors `x -> 2V - x` and horizontal mirrors
+  `y -> 2H - y`.
+- The solver enumerates integer mirror axes and shape placements, converts each
+  candidate orbit into a target-cell bit mask, chooses a lowest-move full cover,
+  and then replays the result through real click/keyboard actions.
+- The final run solves all eight levels in 253 actions versus the public
+  baseline total of 748.
