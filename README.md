@@ -284,6 +284,19 @@ level_actions: [15, 11, 40, 22, 28, 53, 37, 47]
 level_baseline_actions: [32, 50, 75, 37, 89, 159, 233, 73]
 ```
 
+On the public `bp35` environment version `0a0ad940`, the BP35 platform/gravity
+solver completes all nine levels:
+
+```text
+environment: bp35-0a0ad940
+score: 100.0
+levels_completed: 9 / 9
+state: WIN
+total_actions: 390
+level_actions: [15, 44, 36, 19, 30, 43, 44, 40, 119]
+level_baseline_actions: [21, 48, 44, 38, 33, 87, 86, 131, 163]
+```
+
 The latest local reproduction summary is documented in
 [`docs/RESULTS.md`](docs/RESULTS.md).
 
@@ -291,7 +304,7 @@ The latest local reproduction summary is documented in
 
 - Reproducible 100.0-score solvers for public LS20, TR87, WA30, FT09, VC33,
   G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, CN04, LF52, S5I5, SC25,
-  TU93, SP80, M0R0, and AR25 environments.
+  TU93, SP80, M0R0, AR25, and BP35 environments.
 - A complete LF52 peg/conveyor solver with long-horizon ferry/bridge plans
   across disconnected rails.
 - A compact demonstration that symbolic/state-space modeling can solve
@@ -374,6 +387,9 @@ Important files:
 - `v36_ar25_reflection_solver.py`: AR25 reflection-group solver over integer
   mirror axes, shape orbits, target-cell covering masks, and live replay
   through all eight levels.
+- `v37_bp35_platform_solver.py`: BP35 platform/gravity solver over
+  click-expanded support blocks, gravity flips, destructible cells, toggle
+  gates, and live replay through all nine levels.
 - `exotic/`: earlier math-first modules for perception, TDA, potential fields,
   group-state reasoning, temporal diffs, and state-machine experiments.
 - `diag_model_divergence.py`: compares the planner model against live runtime
@@ -412,6 +428,7 @@ python v33_tu93_arrow_solver.py --target-level 9
 python v34_sp80_spill_solver.py --target-level 6
 python v35_m0r0_mirror_solver.py --target-level 6
 python v36_ar25_reflection_solver.py --target-level 8
+python v37_bp35_platform_solver.py --target-level 9
 ```
 
 The public LS20 source currently contains 7 levels. Passing `--target-level 8`
@@ -442,6 +459,7 @@ v33_tu93_output/target_L9/
 v34_sp80_output/target_L6/
 v35_m0r0_output/target_L6/
 v36_ar25_output/target_L8/
+v37_bp35_output/
 ```
 
 These generated files are ignored by git.
@@ -452,9 +470,9 @@ The honest claim is:
 
 > Source-assisted symbolic/spectral planners solve public ARC-AGI-3 LS20,
 > TR87, WA30, FT09, VC33, G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, CN04,
-> LF52, S5I5, SC25, TU93, SP80, M0R0, and AR25 environments with 100.0 scores, and
-> provide a concrete research path toward black-box interactive world-modeling
-> agents.
+> LF52, S5I5, SC25, TU93, SP80, M0R0, AR25, and BP35 environments with 100.0
+> scores, and provide a concrete research path toward black-box interactive
+> world-modeling agents.
 
 The claim to avoid is:
 

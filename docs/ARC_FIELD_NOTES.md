@@ -458,32 +458,40 @@ configuration, then compiling it back into actions.
 
 ---
 
-## BP35 - Active Probe: Platform Dynamics
+## BP35 - Gravity Platformer and Moving Support Clouds
 
-### Current observation
+### Core lesson
 
-BP35 appears to be a compact platformer with lateral control, gravity-driven
-falls, clickable/removable cells, toggle cells, hazards, gates and gravity
-switches.
+BP35 teaches that some ARC-AGI-3 levels are best modeled as controlled physics,
+not as static pathfinding. The key object is not only the player path, but the
+moving support field carried with the player.
 
-### Working hypothesis
+### Current limitation
 
-The right abstraction is not pixel search. It is a macro transition model:
+The current solver uses source-assisted access to the internal tile grid and
+click semantics. It does not yet infer platform dynamics purely from frame
+deltas.
+
+### Black-box direction
+
+A black-box version should infer:
 
 - move left/right until blocked or falling
-- click the cell under or near the actor to alter the next fall
-- track gravity orientation and camera-relative click visibility
-- plan over fall endpoints and destructible/toggle cell states
+- which clickable cells remove, toggle, expand or flip gravity
+- that yellow `y` blocks expand into adjacent empty cells
+- how a local `y` cloud can act as shield, floor and elevator
+- where gravity flips convert the same support cloud into vertical transport
 
-### Reusable operator under construction
+### Reusable operator
 
-Platformer physics abstraction + local edit planning.
+Platformer physics abstraction + moving-support planning.
 
 ### Why it matters
 
-BP35 is a good next test because it forces the solver to combine continuous
-platform intuition with symbolic cell editing. It is less algebraic than AR25,
-but still compressible into a small operator model.
+BP35 is a compact proof that "support as state" matters. The solver wins the
+final level by driving an expanding yellow support cloud around the player,
+changing gravity to change the cloud's role, entering the left tunnel at
+`(1,8)`, and then using the same mechanism as a lift to the goal.
 
 ---
 
@@ -507,7 +515,7 @@ Across the solved public environments, the following reusable operator families 
 | Flow-front routing | SP80 |
 | Coupled mirrored control | M0R0 |
 | Reflection-group covering | AR25 |
-| Platformer macro dynamics | BP35 (active probe) |
+| Moving support/platform dynamics | BP35 |
 
 ---
 

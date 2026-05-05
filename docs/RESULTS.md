@@ -1,6 +1,6 @@
 # Reproduction Results
 
-Date: 2026-05-02
+Date: 2026-05-05
 
 ## LS20
 
@@ -1319,3 +1319,59 @@ Notes:
   and then replays the result through real click/keyboard actions.
 - The final run solves all eight levels in 253 actions versus the public
   baseline total of 748.
+
+## BP35
+
+Command:
+
+```bash
+python v37_bp35_platform_solver.py --target-level 9
+```
+
+Environment:
+
+```text
+game: bp35
+environment id: bp35-0a0ad940
+available levels: 9
+requested target: 9
+effective target: 9
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 9 / 9
+completed: true
+state: WIN
+total_actions: 390
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 15 | 21 | 100.0 |
+| 2 | 44 | 48 | 100.0 |
+| 3 | 36 | 44 | 100.0 |
+| 4 | 19 | 38 | 100.0 |
+| 5 | 30 | 33 | 100.0 |
+| 6 | 43 | 87 | 100.0 |
+| 7 | 44 | 86 | 100.0 |
+| 8 | 40 | 131 | 100.0 |
+| 9 | 119 | 163 | 100.0 |
+
+Notes:
+
+- BP35 is solved as a platform/gravity puzzle. Horizontal moves are followed by
+  gravity falls, and clicks mutate local support, destructible cells, gravity
+  switches, and one-way toggle gates.
+- Level 9 uses a moving yellow support cloud: click-expanding `y` cells are
+  driven around the player, alternately acting as shield, floor and elevator.
+- The final route enters the lower chamber through the right-side channel,
+  reaches the left tunnel at `(1,8)`, then climbs the cleared left shaft to the
+  goal with a yellow support lift.
+- The final run solves all nine levels in 390 actions versus the public
+  baseline total of 651.
