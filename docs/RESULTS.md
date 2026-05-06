@@ -1,6 +1,6 @@
 # Reproduction Results
 
-Date: 2026-05-05
+Date: 2026-05-06
 
 ## LS20
 
@@ -1375,3 +1375,70 @@ Notes:
   goal with a yellow support lift.
 - The final run solves all nine levels in 390 actions versus the public
   baseline total of 651.
+
+## SK48
+
+Command:
+
+```bash
+python v38_sk48_line_sokoban_solver.py --target-level 8
+```
+
+Environment:
+
+```text
+game: sk48
+environment id: sk48-d8078629
+available levels: 8
+requested target: 8
+effective target: 8
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 8 / 8
+completed: true
+state: WIN
+total_actions: 226
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 14 | 61 | 100.0 |
+| 2 | 28 | 177 | 100.0 |
+| 3 | 33 | 101 | 100.0 |
+| 4 | 25 | 103 | 100.0 |
+| 5 | 33 | 230 | 100.0 |
+| 6 | 40 | 181 | 100.0 |
+| 7 | 29 | 125 | 100.0 |
+| 8 | 24 | 92 | 100.0 |
+
+Generated line-tool plans:
+
+```text
+L1: RRRUUURLDDRLUR
+L2: RRRRUURURLLULLURRDRRLURLLURR
+L3: RRUUUURDDLDRRRRLULLLUUURDDDLUUUUR
+L4: UULRURULLLDDDRRRUULLURDLU
+L5: LULLRRRRURRDLLLDDRRRLLLLDRRRRRLUR
+L6: RRC2DDRDC0DRLDRRUC2URDURDDLC0DRRLLLLDRC2DDULD
+L7: RRRRRC2DLDRRC0RLLLDDRUUUC2RDLC0RR
+L8: RRC2DDRDLDDDUUURC0RRRRLDLU
+```
+
+Notes:
+
+- SK48 is solved as a line-Sokoban ordering puzzle. A selected line tool can
+  extend/retract along its axis and move sideways only when its head is aligned
+  with a rail sprite.
+- Colored blocks ride on chain segments. The win condition compares the block
+  color sequence on each source line to the paired target line.
+- Plans were found by a source-assisted transition model validated against the
+  live runtime, then replayed as real keyboard/click actions.
+- The final run solves all eight levels in 226 actions versus the public
+  baseline total of 1070.

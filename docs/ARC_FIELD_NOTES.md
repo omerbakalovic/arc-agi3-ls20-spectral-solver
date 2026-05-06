@@ -495,6 +495,44 @@ changing gravity to change the cloud's role, entering the left tunnel at
 
 ---
 
+## SK48 - Line-Sokoban and Sequence Matching
+
+### Core lesson
+
+SK48 teaches that a movable object can be a controllable one-dimensional signal.
+The active line tool is not just a carrier; it is an editable sequence support:
+extend, retract, shift on rails, and let colored blocks ride on top.
+
+### Current limitation
+
+The current solver uses source-assisted access to line endpoints, paired target
+lines, rail geometry, and block colors. The replay plans are live-verified, but
+the operator model is not yet inferred only from pixels and probes.
+
+### Black-box direction
+
+A black-box version should infer:
+
+- which click selects which line tool
+- that axial movement extends or retracts the line
+- that lateral movement is rail-gated
+- that blocks are carried by occupied line segments
+- that the win condition compares ordered color sequences, not absolute
+  positions
+
+### Reusable operator
+
+Line support dynamics + ordered sequence matching.
+
+### Why it matters
+
+SK48 is a compact bridge between geometry and symbolic reasoning. The physical
+object is a line, but the goal is an ordered color word. That makes it a useful
+test case for agents that must convert spatial manipulation into sequence
+construction.
+
+---
+
 ## Emerging Operator Library
 
 Across the solved public environments, the following reusable operator families appear:
@@ -516,6 +554,7 @@ Across the solved public environments, the following reusable operator families 
 | Coupled mirrored control | M0R0 |
 | Reflection-group covering | AR25 |
 | Moving support/platform dynamics | BP35 |
+| Line support sequence matching | SK48 |
 
 ---
 
