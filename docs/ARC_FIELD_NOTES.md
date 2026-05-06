@@ -533,6 +533,43 @@ construction.
 
 ---
 
+## KA59 - Kinetic Pushes and Timed Bomb Fields
+
+### Core lesson
+
+KA59 teaches that collision is an operator, not just a constraint. A failed move
+can be useful because the selected tool acts like a piston: it stays fixed and
+kicks the touched object through several micro-steps.
+
+### Current limitation
+
+The current solver uses source-assisted masked collision geometry, bomb phases,
+and target-frame definitions. It validates and replays real actions, but it
+does not yet infer the piston and bomb rules purely from observation.
+
+### Black-box direction
+
+A black-box version should infer:
+
+- which sprites are selectable tools
+- that direct movement and collision-kick movement are different operators
+- that purple regions block direct motion but not pushed motion
+- that orange blocks have an internal timer visible as row filling
+- that explosions are directional fields that can move objects through walls
+
+### Reusable operator
+
+Masked collision dynamics + timed field impulse planning.
+
+### Why it matters
+
+KA59 is one of the clearest public examples where the useful action is not the
+apparent action. A blocked move can create progress by converting input into an
+impulse on another object. That is exactly the kind of causal inversion a
+general interactive agent must learn from action probes.
+
+---
+
 ## Emerging Operator Library
 
 Across the solved public environments, the following reusable operator families appear:
@@ -555,6 +592,7 @@ Across the solved public environments, the following reusable operator families 
 | Reflection-group covering | AR25 |
 | Moving support/platform dynamics | BP35 |
 | Line support sequence matching | SK48 |
+| Timed collision impulse fields | KA59 |
 
 ---
 

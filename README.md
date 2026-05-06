@@ -310,6 +310,19 @@ level_actions: [14, 28, 33, 25, 33, 40, 29, 24]
 level_baseline_actions: [61, 177, 101, 103, 230, 181, 125, 92]
 ```
 
+On the public `ka59` environment version `38d34dbb`, the KA59 kinetic
+push/bomb solver completes all seven levels:
+
+```text
+environment: ka59-38d34dbb
+score: 100.0
+levels_completed: 7 / 7
+state: WIN
+total_actions: 256
+level_actions: [11, 38, 33, 38, 20, 51, 65]
+level_baseline_actions: [28, 109, 51, 51, 33, 132, 326]
+```
+
 The latest local reproduction summary is documented in
 [`docs/RESULTS.md`](docs/RESULTS.md).
 
@@ -317,7 +330,7 @@ The latest local reproduction summary is documented in
 
 - Reproducible 100.0-score solvers for public LS20, TR87, WA30, FT09, VC33,
   G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, CN04, LF52, S5I5, SC25,
-  TU93, SP80, M0R0, AR25, BP35, and SK48 environments.
+  TU93, SP80, M0R0, AR25, BP35, SK48, and KA59 environments.
 - A complete LF52 peg/conveyor solver with long-horizon ferry/bridge plans
   across disconnected rails.
 - A compact demonstration that symbolic/state-space modeling can solve
@@ -406,6 +419,9 @@ Important files:
 - `v38_sk48_line_sokoban_solver.py`: SK48 line-Sokoban solver over
   extendable/retractable line tools, rail-constrained lateral moves, colored
   block ordering, and live replay through all eight levels.
+- `v39_ka59_bomb_push_solver.py`: KA59 kinetic push/bomb solver over
+  click-selected tools, five-step piston pushes, timed bomb explosions, target
+  frames, and live replay through all seven levels.
 - `exotic/`: earlier math-first modules for perception, TDA, potential fields,
   group-state reasoning, temporal diffs, and state-machine experiments.
 - `diag_model_divergence.py`: compares the planner model against live runtime
@@ -446,6 +462,7 @@ python v35_m0r0_mirror_solver.py --target-level 6
 python v36_ar25_reflection_solver.py --target-level 8
 python v37_bp35_platform_solver.py --target-level 9
 python v38_sk48_line_sokoban_solver.py --target-level 8
+python v39_ka59_bomb_push_solver.py --target-level 7
 ```
 
 The public LS20 source currently contains 7 levels. Passing `--target-level 8`
@@ -478,6 +495,7 @@ v35_m0r0_output/target_L6/
 v36_ar25_output/target_L8/
 v37_bp35_output/
 v38_sk48_output/target_L8/
+v39_ka59_output/target_L7/
 ```
 
 These generated files are ignored by git.
@@ -488,7 +506,7 @@ The honest claim is:
 
 > Source-assisted symbolic/spectral planners solve public ARC-AGI-3 LS20,
 > TR87, WA30, FT09, VC33, G50T, RE86, CD82, R11L, LP85, SB26, SU15, TN36, CN04,
-> LF52, S5I5, SC25, TU93, SP80, M0R0, AR25, BP35, and SK48 environments with 100.0
+> LF52, S5I5, SC25, TU93, SP80, M0R0, AR25, BP35, SK48, and KA59 environments with 100.0
 > scores, and provide a concrete research path toward black-box interactive
 > world-modeling agents.
 

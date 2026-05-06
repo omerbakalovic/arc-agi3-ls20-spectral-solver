@@ -1442,3 +1442,69 @@ Notes:
   live runtime, then replayed as real keyboard/click actions.
 - The final run solves all eight levels in 226 actions versus the public
   baseline total of 1070.
+
+## KA59
+
+Command:
+
+```bash
+python v39_ka59_bomb_push_solver.py --target-level 7
+```
+
+Environment:
+
+```text
+game: ka59
+environment id: ka59-38d34dbb
+available levels: 7
+requested target: 7
+effective target: 7
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 7 / 7
+completed: true
+state: WIN
+total_actions: 256
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 11 | 28 | 100.0 |
+| 2 | 38 | 109 | 100.0 |
+| 3 | 33 | 51 | 100.0 |
+| 4 | 38 | 51 | 100.0 |
+| 5 | 20 | 33 | 100.0 |
+| 6 | 51 | 132 | 100.0 |
+| 7 | 65 | 326 | 100.0 |
+
+Generated kinetic plans:
+
+```text
+L1: R R R L D L L L C1 U R
+L2: C3 L L L L L C0 U U L C1 U C3 L U U L L C2 D D R R R R R C0 D R R R R R C1 U U U L
+L3: D R R R R D L D L L L L L D D L L L D L L L L L D R U U R R R R R
+L4: R R R D C1 L L L D R D R R R R D R U U R C0 R D D R U U U R U U U D D R R R R
+L5: U U U U U U U U U U U U R R R R R R R D
+L6: U L L U U L L L L L L L U U L L L L L L L U R R R R R R U L D D D R U U U R R R R R R R R U U L U U R
+L7: L L L L L D C1 U U C0 L L L L D L U U C1 L L L L U U U L L L L L L U U R R R U U R D D D L L L L D D D R R R R D R R D D R R R R U U
+```
+
+Notes:
+
+- KA59 is solved as a kinetic masked-collision puzzle. The selected yellow tool
+  moves in three-pixel increments, and a collision kicks the touched object
+  through a five-step piston push while the selected tool stays in place.
+- Purple regions block direct selected-tool movement but allow pushed objects
+  and explosion-driven objects to pass until they exit the field.
+- Orange bombs fill one row per movement action. When full, their three-frame
+  explosion applies directional pushes to nearby objects and can route pieces
+  through otherwise impossible corridors.
+- The final run solves all seven levels in 256 actions versus the public
+  baseline total of 730.
