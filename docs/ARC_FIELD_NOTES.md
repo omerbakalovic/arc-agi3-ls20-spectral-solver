@@ -570,6 +570,46 @@ general interactive agent must learn from action probes.
 
 ---
 
+## DC22 - Portal Phases and Graph-Constrained Crane Bridges
+
+### Core lesson
+
+DC22 teaches that click UI can be a state-dependent control surface. The same
+visible panel alternates between ordinary color-phase buttons, rolo-pad gated
+crane commands, and bridge-grab commands that only become usable after a trigger
+cell has been visited.
+
+### Current limitation
+
+The current solver uses source-assisted access to buezna tags, tewfut color
+cycles, rolo-pad visibility, vcha crane anchors, and bridge masks. The replay is
+live-verified, but the operator model is not yet inferred only from frame
+deltas and probes.
+
+### Black-box direction
+
+A black-box version should infer:
+
+- which colored buttons cycle support phases
+- that some buttons are only clickable while standing on matching rolo pads
+- that tewfut teleport endpoints are selected by active color/name phase
+- that the crane moves on a graph of anchor cells, not on a free grid
+- that carrying a bridge changes both the world geometry and the crane collider
+
+### Reusable operator
+
+State-dependent UI controls + graph-constrained bridge transport.
+
+### Why it matters
+
+DC22 is a compact example of indirect manipulation. The player does not simply
+walk to the goal; it unlocks a control panel, drives a remote bridge through a
+hidden anchor graph, then changes teleport color to re-enter the newly bridged
+topology. This is exactly the sort of multi-modal operator composition a
+general interactive solver must learn.
+
+---
+
 ## Emerging Operator Library
 
 Across the solved public environments, the following reusable operator families appear:
@@ -593,6 +633,7 @@ Across the solved public environments, the following reusable operator families 
 | Moving support/platform dynamics | BP35 |
 | Line support sequence matching | SK48 |
 | Timed collision impulse fields | KA59 |
+| State-dependent crane/portal controls | DC22 |
 
 ---
 

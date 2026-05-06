@@ -1508,3 +1508,55 @@ Notes:
   through otherwise impossible corridors.
 - The final run solves all seven levels in 256 actions versus the public
   baseline total of 730.
+
+## DC22
+
+Command:
+
+```bash
+python v40_dc22_crane_portal_solver.py --target-level 6
+```
+
+Environment:
+
+```text
+game: dc22
+environment id: dc22-fdcac232
+available levels: 6
+requested target: 6
+effective target: 6
+```
+
+Final scorecard:
+
+```text
+score: 100.0
+levels_completed: 6 / 6
+completed: true
+state: WIN
+total_actions: 422
+resets: 0
+```
+
+Per-level actions:
+
+| Level | Actions | Baseline actions | Level score |
+|---:|---:|---:|---:|
+| 1 | 20 | 59 | 100.0 |
+| 2 | 42 | 102 | 100.0 |
+| 3 | 45 | 67 | 100.0 |
+| 4 | 62 | 98 | 100.0 |
+| 5 | 108 | 324 | 100.0 |
+| 6 | 145 | 578 | 100.0 |
+
+Notes:
+
+- DC22 is solved as a portal/crane puzzle. Colored buezna buttons cycle
+  platform variants, tewfut anchors teleport between matching active colors,
+  and rolo pads gate which crane controls are visible.
+- Level 5 uses a small rail-constrained crane to carry a 6x12 bridge object.
+- Level 6 generalizes the crane to a vcha graph and carries a 20x20 brixto
+  bridge to close the upper gap before a final color-teleport and walk to the
+  goal.
+- The final run solves all six levels in 422 actions versus the public
+  baseline total of 1228.
