@@ -13,6 +13,7 @@ recordings/
 
 # Generated diagnostics and rollout artifacts
 *_output/
+blackbox_runs/
 rollout_dump/
 *.png
 *.npy
